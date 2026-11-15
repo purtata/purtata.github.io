@@ -277,3 +277,62 @@ footer {
   color: var(--muted);
 }
 footer p + p { margin-top: .3rem; }
+
+
+/* ---------- 11. Print: "Save as PDF" gives the downloadable CV ----------
+   Same HTML, different rules: A4, light colours whatever the screen theme,
+   smaller type, no buttons, and no job split across two pages.           */
+
+@media print {
+  @page { size: A4; margin: 14mm 16mm; }
+
+  :root {                                   /* always light on paper, even if the screen is dark */
+    --bg: #FFFFFF;
+    --text: #1A1714;
+    --muted: #555049;
+    --line: #CFC6B8;
+    --accent: #4A5238;
+    color-scheme: light;
+  }
+
+  html { font-size: 9.5pt; }               /* rem now means 9.5pt, so every rem-based size shrinks with it */
+  body { line-height: 1.45; }
+
+  body > header,
+  body > main,
+  body > footer { width: auto; padding: 0; }   /* the page margins do the job */
+
+  body > header { padding-top: 0; }
+  .hero h1 { font-size: 24pt; }
+  .role    { font-size: 12pt; }
+  .pitch   { margin-top: .6rem; max-width: none; }
+
+  /* Buttons make no sense on paper: hide the print button, turn LinkedIn into plain text + URL */
+  #print-btn { display: none; }
+  .actions { margin-top: .5rem; }
+  .btn, .btn.primary { padding: 0; border: 0; background: none; color: var(--text); font-size: inherit; }
+  .btn[href*="linkedin.com"]::after { content: ": linkedin.com/in/krzysztof-piotrowski-22235b139"; color: var(--muted); }
+  .cta { margin-top: .4rem; }
+
+  main section { margin-top: 1.1rem; padding-top: .6rem; }
+  h2 { margin-bottom: .5rem; font-size: 13pt; }
+  h3 { font-size: 10.5pt; }
+  ul { margin-top: .2rem; }
+  li { margin: .1rem 0; }
+  .job + .job { margin-top: .8rem; }
+
+  /* Keep things together where a split would look broken */
+  /* A long job may continue on the next page, but its title + dates stay with the first bullet */
+  li, .cert-group, .badge, .cols > section, .skills dt, .skills dd { break-inside: avoid; }
+  h2, h3, .where, .steps, .project { break-after: avoid; }
+
+  .cert-group + .cert-group { margin-top: .8rem; }
+  .cert-group h3 { margin-bottom: .4rem; }
+  .badges { gap: 10px 24px; }              /* badges stay 94px: never smaller (Guidewire rule) */
+  .badge p { margin-top: .3rem; font-size: 8pt; }
+  .note { margin-top: .8rem; font-size: 8.5pt; }
+
+  footer { margin-top: 1.2rem; padding-top: .5rem; font-size: 7.5pt; }
+
+  a { color: inherit; text-decoration: none; }   /* links stay clickable in the PDF, but look like text */
+}
