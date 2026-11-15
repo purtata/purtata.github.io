@@ -1,0 +1,14 @@
+# Private source material (CV PDFs, LinkedIn export, cert PDFs, notes).
+# Never publish: the repo is public and git history is forever.
+resources/
+
+# Safety net: no PDF anywhere gets committed by accident
+*.pdf
+
+# Private planning notes
+PLAN.md
+
+# Editor / OS noise
+.vscode/
+.DS_Store
+Thumbs.db
