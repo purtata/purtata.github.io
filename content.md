@@ -91,9 +91,9 @@ Main project: **AXA Germany**, Guidewire PolicyCenter
 Verify: [Guidewire Certification Checker](https://education.guidewire.com/lmt/lmtlogin.prHome?site=guidewire#certification-checker): enter First Name "Krzysztof" and Last Name "Piotrowski".
 
 1. **Associate — InsuranceSuite Developer** (Guidewire Cloud): Qusar · Palisades · Olos · Niseko. *Re-certified on every release since Niseko.*
-2. **Specialist — PolicyCenter Configuration** (Cloud): Olos · Niseko
-3. **Specialist — ClaimCenter Configuration** (Cloud): Olos · Niseko
-4. **Specialist — BillingCenter Configuration** (Cloud): Olos · Niseko
+2. **Specialist — PolicyCenter Configuration** (Cloud): Olos · Niseko · earlier: Mammoth
+3. **Specialist — ClaimCenter Configuration** (Cloud): Olos · Niseko · earlier: Mammoth
+4. **Specialist — BillingCenter Configuration** (Cloud): Olos · Niseko · earlier: Mammoth
 5. **Self-Managed Specialist — PolicyCenter / ClaimCenter / BillingCenter Configuration**
 
 Note for the page: *Guidewire changed its certification paths after Olos, so product-specific Specialist exams don't exist for Palisades or Qusar.*
