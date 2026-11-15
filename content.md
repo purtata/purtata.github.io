@@ -88,7 +88,7 @@ Main project: **AXA Germany**, Guidewire PolicyCenter
 
 ## Certifications (Guidewire)
 
-Verify: [Guidewire Certification Checker](https://www.guidewire.com/education/certification-checker) (search "Krzysztof Piotrowski") **[?]** *(confirm this is the exact Checker URL you use)*
+Verify: [Guidewire Certification Checker](https://education.guidewire.com/lmt/lmtlogin.prHome?site=guidewire#certification-checker): enter First Name "Krzysztof" and Last Name "Piotrowski".
 
 1. **Associate — InsuranceSuite Developer** (Guidewire Cloud): Qusar · Palisades · Olos · Niseko. *Re-certified on every release since Niseko.*
 2. **Specialist — PolicyCenter Configuration** (Cloud): Olos · Niseko
