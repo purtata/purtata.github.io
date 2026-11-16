@@ -1,0 +1,6 @@
+# Allow everything. Search engines must be able to fetch the page to see its
+# robots meta tag (currently "noindex" until launch). Blocking here would hide that tag.
+User-agent: *
+Allow: /
+
+Sitemap: https://purtata.github.io/sitemap.xml
