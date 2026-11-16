@@ -96,7 +96,7 @@ Verify: [Guidewire Certification Checker](https://education.guidewire.com/lmt/lm
 4. **Specialist — BillingCenter Configuration** (Cloud): Olos · Niseko · earlier: Mammoth
 5. **Self-Managed Specialist — PolicyCenter / ClaimCenter / BillingCenter Configuration**
 
-Note for the page: *Guidewire changed its certification paths after Olos, so product-specific Specialist exams don't exist for Palisades or Qusar.*
+Note for the page: *Since Palisades, Guidewire's product-specific certifications sit at the Ace level; I'm currently working towards them.*
 
 ---
 
@@ -107,7 +107,7 @@ Note for the page: *Guidewire changed its certification paths after Olos, so pro
 - **AI-assisted engineering:** Claude Code, multi-agent workflows, agent and skill design, AI code review, context engineering (knowledge bases)
 - **Languages:** Gosu, Java, SQL
 - **Tools and practices:** Git, Bitbucket, Jenkins, GitHub Actions, Jira, GUnit, Guidewire Profiler, Splunk, Scrum, SAFe
-- **Other:** Android (AOSP)
+- **Communication and leadership:** clear communication between business and IT, in Polish, English and German · team leadership and mentoring · training and onboarding · client-facing and negotiation skills from years of running my own bank and insurance businesses
 
 ## Languages
 
@@ -119,11 +119,6 @@ Note for the page: *Guidewire changed its certification paths after Olos, so pro
 
 - **Wrocław University of Science and Technology:** Master of Engineering, Management and Marketing (specialisation: Information Technologies in Management), 2004 – 2010
 - **Software Development Academy, Wrocław:** "Java from Scratch" course, 2016 – 2017
-
-## Projects
-
-- **This website:** specified, reviewed and directed an AI-built personal website (Claude Code): plain HTML and CSS, GitHub Pages, accessibility and privacy built in.
-- **Local software factory (at work, Claude Code):** an autonomous multi-agent pipeline that takes a Guidewire ticket from intake to a reviewed handover, with independent review agents and strict guardrails.
 
 ## Interests
 
