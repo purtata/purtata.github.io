@@ -1,6 +1,6 @@
 # CV content (source of truth for the website)
 
-> **Status: DRAFT v2 (AI work added from the work report).** Krzysztof reviews this, and once he approves it, it becomes the text of the website (Phase 3).
+> **Status: DRAFT v3 (AI work report + 360° feedback).** Krzysztof reviews this, and once he approves it, it becomes the text of the website (Phase 3).
 > Markers:
 > - **[?]**: Krzysztof to confirm or fill in. Never invented.
 
@@ -21,7 +21,7 @@ Call to action: *Open to interesting projects.*
 
 Senior Guidewire Developer building insurance systems since 2017. I work on PolicyCenter, ClaimCenter, BillingCenter and ContactManager, across configuration and integration, for insurers in Germany, Switzerland and Poland. I'm a certified Guidewire Associate InsuranceSuite Developer (current release, Qusar) and a Configuration Specialist for PolicyCenter, ClaimCenter and BillingCenter.
 
-In my current team I lead the move to AI-assisted engineering. I use Claude Code for agentic development, build the harness and tooling that make it reliable on a large Guidewire codebase, and use it to deliver features and measurable performance gains.
+In my current team I lead the move to AI-assisted engineering. I use Claude Code for agentic development, build the harness and tooling that make it reliable on a large Guidewire codebase, and use it to deliver features and measurable performance gains. I'm usually the first person new joiners call.
 
 Before software, I spent over seven years running bank branches and insurance agencies, so I know the business side of the systems I build.
 
@@ -31,17 +31,18 @@ Before software, I spent over seven years running bank branches and insurance ag
 
 ### Baloise Solution Hub — Senior Guidewire Developer
 *July 2025 – present · Warsaw · Bad Homburg (Germany) · Remote*
-Project: **HelvetiaBaloise Germany**, PolicyCenter Policy Management
+Project: **HelvetiaBaloise Germany**, PolicyCenter Policy Management · mixed German client team (consultancy and in-house developers)
 
-- **AI team lead:** I introduced and promote agentic, AI-assisted development in a team of 20 (8 developers), including a shared knowledge base of validated patterns and lessons learned that every AI session starts from, and a Community of Practice position paper on AI-generated tests.
+- **AI team lead:** I introduced and promote agentic, AI-assisted development in a team of 20 (8 developers) and onboarded developers across teams to Claude Code (setup, shared artifacts, lessons learned), including a shared knowledge base of validated patterns and lessons learned that every AI session starts from, and a Community of Practice position paper on AI-generated tests.
 - **Built a local "software factory" on Claude Code:** an autonomous pipeline that takes a Jira ticket from intake to a reviewed handover, with specialised agents for scoping, analysis, planning, execution, verification and an independent "skeptic" review. Guardrails: no autonomous pushes, one commit per slice, a decision log, and explicit flags for business assumptions. Works across PolicyCenter, BillingCenter and ClaimCenter.
 - **Built a set of supporting AI skills:** Guidewire code review against acceptance criteria, profiler-export analysis (N+1 queries, SQL traced to Gosu callers), log investigation with a non-production guardrail, converting BA story cards and BPMN diagrams to text, and Guidewire knowledge skills (SQL with schema validation, GUnit, effective dating, workflows).
 - **Delivered many tickets with AI support since May 2026** (features, bugs, performance), for example a multi-phase premium-regulation feature, producer change as a policy change, data migrations, and a cross-system PolicyCenter / ClaimCenter / BillingCenter integration.
 - **Profiling-driven performance work:** eliminated most of the SQL in a key renewal process, cut a heavy screen to a fraction of its queries, made a hot lookup several times faster with a cluster cache, replaced N+1 loads with batch loads, and reworked cross-system calls to fix timeouts on large accounts.
-- **Production root-cause analysis:** deep investigations on production data (SQL, Splunk), with plain-language summaries in English and German for business analysts and testers.
+- **Business and production analysis:** shape user stories with BAs before development (Three Amigos); investigate production incidents on production data (SQL, Splunk) and turn the root causes into story and solution changes, with plain-language summaries in English and German for BAs and testers.
+- Step in when delivery is blocked: build and CI problems, a failed renewal run, production monitoring.
 - Built PolicyCenter processes for new products: residential building, household and commercial insurance.
 - Maintain and fix existing product processes, mainly motor insurance (KFZ).
-- Train and mentor the team's developers.
+- Mentor and train developers and stay active in code reviews; support recruitment and volunteered for the people-lead role.
 
 ### Beesafe sp. z o.o. — Senior / Lead Guidewire Developer
 *May 2023 – June 2025 · Warsaw*
@@ -108,6 +109,16 @@ Note for the page: *Since Palisades, Guidewire's product-specific certifications
 - **Languages:** Gosu, Java, SQL
 - **Tools and practices:** Git, Bitbucket, Jenkins, GitHub Actions, Jira, GUnit, Guidewire Profiler, Splunk, Scrum, SAFe
 - **Communication and leadership:** clear communication between business and IT, in Polish, English and German · team leadership and mentoring · training and onboarding · client-facing and negotiation skills from years of running my own bank and insurance businesses
+
+## What colleagues say
+
+*Anonymous quotes from my 2026 360° feedback (client team), word for word.*
+
+> "When using AI he does not just trust the solution from AI but also challenges the solution to really solve issues."
+
+> "In every call he takes the necessary time to explain technical background, repeats what was discussed to ensure mutual understanding…"
+
+> "He helps everyone in the team without needing to be asked. And the results are outstanding."
 
 ## Languages
 
