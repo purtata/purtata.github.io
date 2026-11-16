@@ -1,8 +1,7 @@
 # CV content (source of truth for the website)
 
-> **Status: DRAFT v1.** Krzysztof reviews this, and once he approves it, it becomes the text of the website (Phase 3).
+> **Status: DRAFT v2 (AI work added from the work report).** Krzysztof reviews this, and once he approves it, it becomes the text of the website (Phase 3).
 > Markers:
-> - **[AI-REPORT]**: placeholder, to be finalised from the work report.
 > - **[?]**: Krzysztof to confirm or fill in. Never invented.
 
 ---
@@ -22,7 +21,7 @@ Call to action: *Open to interesting projects.*
 
 Senior Guidewire Developer building insurance systems since 2017. I work on PolicyCenter, ClaimCenter, BillingCenter and ContactManager, across configuration and integration, for insurers in Germany, Switzerland and Poland. I'm a certified Guidewire Associate InsuranceSuite Developer (current release, Qusar) and a Configuration Specialist for PolicyCenter, ClaimCenter and BillingCenter.
 
-In my current team I lead the move to AI-assisted engineering. I use Claude Code for agentic development and build the harness and tooling that make it reliable on a large Guidewire codebase.
+In my current team I lead the move to AI-assisted engineering. I use Claude Code for agentic development, build the harness and tooling that make it reliable on a large Guidewire codebase, and use it to deliver features and measurable performance gains.
 
 Before software, I spent over seven years running bank branches and insurance agencies, so I know the business side of the systems I build.
 
@@ -34,13 +33,14 @@ Before software, I spent over seven years running bank branches and insurance ag
 *July 2025 – present · Warsaw · Bad Homburg (Germany) · Remote*
 Project: **HelvetiaBaloise Germany**, PolicyCenter Policy Management
 
-- **AI tech lead (self-initiated):** I drive the adoption of agentic, AI-assisted development in a team of 20 (8 developers): introduced the practice, set up the workflows, and coach colleagues in using them.
-- **[AI-REPORT]** I deliver Guidewire development tasks end to end with Claude Code (agentic coding): analysis, Gosu and PCF changes, tests, and review.
-- **[AI-REPORT]** I built an agent harness for Guidewire work: project context, guardrails and verification steps that keep AI-generated changes consistent with Guidewire best practices.
-- **[AI-REPORT]** I'm developing a local "software factory", a pipeline in which AI agents take tasks from specification to reviewed change. *(Results / time saved: numbers from the report.)*
+- **AI team lead:** I introduced and promote agentic, AI-assisted development in a team of 20 (8 developers), including a shared knowledge base of validated patterns and lessons learned that every AI session starts from, and a Community of Practice position paper on AI-generated tests.
+- **Built a local "software factory" on Claude Code:** an autonomous pipeline that takes a Jira ticket from intake to a reviewed handover, with specialised agents for scoping, analysis, planning, execution, verification and an independent "skeptic" review. Guardrails: no autonomous pushes, one commit per slice, a decision log, and explicit flags for business assumptions. Works across PolicyCenter, BillingCenter and ClaimCenter.
+- **Built a set of supporting AI skills:** Guidewire code review against acceptance criteria, profiler-export analysis (N+1 queries, SQL traced to Gosu callers), log investigation with a non-production guardrail, converting BA story cards and BPMN diagrams to text, and Guidewire knowledge skills (SQL with schema validation, GUnit, effective dating, workflows).
+- **Delivered many tickets with AI support since May 2026** (features, bugs, performance), for example a multi-phase premium-regulation feature, producer change as a policy change, data migrations, and a cross-system PolicyCenter / ClaimCenter / BillingCenter integration.
+- **Profiling-driven performance work:** eliminated most of the SQL in a key renewal process, cut a heavy screen to a fraction of its queries, made a hot lookup several times faster with a cluster cache, replaced N+1 loads with batch loads, and reworked cross-system calls to fix timeouts on large accounts.
+- **Production root-cause analysis:** deep investigations on production data (SQL, Splunk), with plain-language summaries in English and German for business analysts and testers.
 - Built PolicyCenter processes for new products: residential building, household and commercial insurance.
 - Maintain and fix existing product processes, mainly motor insurance (KFZ).
-- Solved performance problems (concurrency, query optimisation, PCF optimisation) following Guidewire best practices.
 - Train and mentor the team's developers.
 
 ### Beesafe sp. z o.o. — Senior / Lead Guidewire Developer
@@ -102,11 +102,11 @@ Note for the page: *Guidewire changed its certification paths after Olos, so pro
 
 ## Skills
 
-- **Guidewire:** PolicyCenter, ClaimCenter, BillingCenter, ContactManager (self-managed InsuranceSuite) · product model (APD, system tables) · PCF · rating support
+- **Guidewire:** PolicyCenter, ClaimCenter, BillingCenter, ContactManager (self-managed InsuranceSuite 10.2) · product model (APD, system tables) · PCF · rating support
 - **Integration and processing:** GW Messaging, SOAP, REST, workflows, batch processes, work queues, data migration
-- **AI-assisted engineering:** Claude Code, agentic coding, agent harness design, local "software factory" **[AI-REPORT]** (other tools?)
+- **AI-assisted engineering:** Claude Code, multi-agent workflows, agent and skill design, AI code review, context engineering (knowledge bases)
 - **Languages:** Gosu, Java, SQL
-- **Tools and practices:** Git, Jenkins, GitHub Actions, Jira, GUnit, Scrum, SAFe
+- **Tools and practices:** Git, Bitbucket, Jenkins, GitHub Actions, Jira, GUnit, Guidewire Profiler, Splunk, Scrum, SAFe
 - **Other:** Android (AOSP)
 
 ## Languages
@@ -123,7 +123,7 @@ Note for the page: *Guidewire changed its certification paths after Olos, so pro
 ## Projects
 
 - **This website:** specified, reviewed and directed an AI-built personal website (Claude Code): plain HTML and CSS, GitHub Pages, accessibility and privacy built in.
-- **Local software factory [AI-REPORT]:** *one or two sentences, if it can be described publicly.*
+- **Local software factory (at work, Claude Code):** an autonomous multi-agent pipeline that takes a Guidewire ticket from intake to a reviewed handover, with independent review agents and strict guardrails.
 
 ## Interests
 
