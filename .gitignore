@@ -12,3 +12,6 @@ PLAN.md
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Local design mockups (reference only)
+design/
