@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ==========================================================================
    Krzysztof Piotrowski: CV website
    Design: "Editorial", minimalism, earth tones, olive accent (Phase 2).
@@ -273,8 +274,8 @@ h3 { font-size: 1.1rem; }
   font-size: 1.15rem;
   line-height: 1.5;
 }
-.quote blockquote p::before { content: "C"; }   /* “ */
-.quote blockquote p::after  { content: "D"; }   /* ” */
+.quote blockquote p::before { content: "“"; }
+.quote blockquote p::after  { content: "”"; }
 
 
 /* ---------- 9. Description lists (skills, languages, education) ---------- */
