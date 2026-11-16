@@ -26,7 +26,7 @@
     <section id="profile" aria-labelledby="profile-title">
       <h2 id="profile-title">Profile</h2>
       <p>Senior Guidewire Developer building insurance systems since 2017. I work on PolicyCenter, ClaimCenter, BillingCenter and ContactManager, across configuration and integration, for insurers in Germany, Switzerland and Poland. I'm a certified Guidewire Associate InsuranceSuite Developer (current release, Qusar) and a Configuration Specialist for PolicyCenter, ClaimCenter and BillingCenter.</p>
-      <p>In my current team I lead the move to AI-assisted engineering. I use Claude Code for agentic development and build the harness and tooling that make it reliable on a large Guidewire codebase.</p>
+      <p>In my current team I lead the move to AI-assisted engineering. I use Claude Code for agentic development, build the harness and tooling that make it reliable on a large Guidewire codebase, and use it to deliver features and measurable performance gains.</p>
       <p>Before software, I spent over seven years running bank branches and insurance agencies, so I know the business side of the systems I build.</p>
     </section>
 
@@ -38,13 +38,14 @@
         <p class="where"><time datetime="2025-07">July 2025</time> – present · Warsaw · Bad Homburg (Germany) · Remote</p>
         <p class="project">HelvetiaBaloise Germany, PolicyCenter Policy Management</p>
         <ul>
-          <li><strong>AI tech lead (self-initiated):</strong> I drive the adoption of agentic, AI-assisted development in a team of 20 (8 developers): introduced the practice, set up the workflows, and coach colleagues in using them.</li>
-          <li>I deliver Guidewire development tasks end to end with Claude Code (agentic coding): analysis, Gosu and PCF changes, tests, and review.</li>
-          <li>I built an agent harness for Guidewire work: project context, guardrails and verification steps that keep AI-generated changes consistent with Guidewire best practices.</li>
-          <li>I'm developing a local "software factory", a pipeline in which AI agents take tasks from specification to reviewed change.</li>
+          <li><strong>AI team lead:</strong> I introduced and promote agentic, AI-assisted development in a team of 20 (8 developers), including a shared knowledge base of validated patterns and lessons learned that every AI session starts from, and a Community of Practice position paper on AI-generated tests.</li>
+          <li><strong>Built a local "software factory" on Claude Code:</strong> an autonomous pipeline that takes a Jira ticket from intake to a reviewed handover, with specialised agents for scoping, analysis, planning, execution, verification and an independent "skeptic" review. Guardrails: no autonomous pushes, one commit per slice, a decision log, and explicit flags for business assumptions. Works across PolicyCenter, BillingCenter and ClaimCenter.</li>
+          <li><strong>Built a set of supporting AI skills:</strong> Guidewire code review against acceptance criteria, profiler-export analysis (N+1 queries, SQL traced to Gosu callers), log investigation with a non-production guardrail, converting BA story cards and BPMN diagrams to text, and Guidewire knowledge skills (SQL with schema validation, GUnit, effective dating, workflows).</li>
+          <li><strong>Delivered many tickets with AI support since May 2026</strong> (features, bugs, performance), for example a multi-phase premium-regulation feature, producer change as a policy change, data migrations, and a cross-system PolicyCenter / ClaimCenter / BillingCenter integration.</li>
+          <li><strong>Profiling-driven performance work:</strong> eliminated most of the SQL in a key renewal process, cut a heavy screen to a fraction of its queries, made a hot lookup several times faster with a cluster cache, replaced N+1 loads with batch loads, and reworked cross-system calls to fix timeouts on large accounts.</li>
+          <li><strong>Production root-cause analysis:</strong> deep investigations on production data (SQL, Splunk), with plain-language summaries in English and German for business analysts and testers.</li>
           <li>Built PolicyCenter processes for new products: residential building, household and commercial insurance.</li>
           <li>Maintain and fix existing product processes, mainly motor insurance (KFZ).</li>
-          <li>Solved performance problems (concurrency, query optimisation, PCF optimisation) following Guidewire best practices.</li>
           <li>Train and mentor the team's developers.</li>
         </ul>
       </article>
@@ -170,15 +171,15 @@
       <h2 id="skills-title">Skills</h2>
       <dl class="skills">
         <dt>Guidewire</dt>
-        <dd>PolicyCenter, ClaimCenter, BillingCenter, ContactManager (self-managed InsuranceSuite) · product model (APD, system tables) · PCF · rating support</dd>
+        <dd>PolicyCenter, ClaimCenter, BillingCenter, ContactManager (self-managed InsuranceSuite 10.2) · product model (APD, system tables) · PCF · rating support</dd>
         <dt>Integration and processing</dt>
         <dd>GW Messaging, SOAP, REST, workflows, batch processes, work queues, data migration</dd>
         <dt>AI-assisted engineering</dt>
-        <dd>Claude Code, agentic coding, agent harness design, local "software factory"</dd>
+        <dd>Claude Code, multi-agent workflows, agent and skill design, AI code review, context engineering (knowledge bases)</dd>
         <dt>Programming languages</dt>
         <dd>Gosu, Java, SQL</dd>
         <dt>Tools and practices</dt>
-        <dd>Git, Jenkins, GitHub Actions, Jira, GUnit, Scrum, SAFe</dd>
+        <dd>Git, Bitbucket, Jenkins, GitHub Actions, Jira, GUnit, Guidewire Profiler, Splunk, Scrum, SAFe</dd>
         <dt>Other</dt>
         <dd>Android (AOSP)</dd>
       </dl>
@@ -208,6 +209,7 @@
     <div class="cols">
       <section id="projects" aria-labelledby="projects-title">
         <h2 id="projects-title">Projects</h2>
+        <p><strong>Local software factory</strong> (at work, Claude Code). An autonomous multi-agent pipeline that takes a Guidewire ticket from intake to a reviewed handover, with independent review agents and strict guardrails.</p>
         <p><strong>This website.</strong> Specified, reviewed and directed an AI-built personal website (Claude Code): plain HTML and CSS, GitHub Pages, accessibility and privacy built in.</p>
       </section>
 
