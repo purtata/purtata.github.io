@@ -352,7 +352,7 @@ footer p + p { margin-top: .3rem; }
 
   /* Keep things together where a split would look broken */
   /* A long job may continue on the next page, but its title + dates stay with the first bullet */
-  li, .cert-group, .badge, .cols > section, .skills dt, .skills dd { break-inside: avoid; }
+  li, .cert-group, .badge, .quote, .cols > section, .skills dt, .skills dd { break-inside: avoid; }
   h2, h3, .where, .steps, .project { break-after: avoid; }
 
   .cert-group + .cert-group { margin-top: .8rem; }
