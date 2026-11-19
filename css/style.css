@@ -183,6 +183,57 @@ body > footer { padding-bottom: 48px; }
 }
 
 
+/* ---------- 5b. AI portrait (a wink, not the centre of the page) ----------
+   Phones: small photo + caption in a row above the name.
+   Wider screens: the hero becomes a 2-column grid, photo on the right.       */
+
+.portrait {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 1.4rem;
+}
+.portrait img {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;          /* round crop of a square image */
+  flex: none;                  /* never squeeze the photo */
+}
+.portrait figcaption {
+  max-width: 16rem;
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: .9rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.portrait figcaption span {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: .75rem;
+  letter-spacing: .04em;
+}
+
+@media (min-width: 640px) {
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 2.5rem;
+  }
+  .hero > * { grid-column: 1; }          /* everything in the text column… */
+  .portrait {                             /* …except the photo */
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    flex-direction: column;
+    align-items: center;
+    margin: .4rem 0 0;
+    text-align: center;
+  }
+  .portrait img { width: 112px; height: 112px; }
+  .portrait figcaption { max-width: 9.5rem; }
+}
+
+
 /* ---------- 6. Sections ---------- */
 
 main section {
@@ -337,7 +388,8 @@ footer p + p { margin-top: .3rem; }
   .pitch   { margin-top: .6rem; max-width: none; }
 
   /* Buttons make no sense on paper: hide the print button, turn LinkedIn into plain text + URL */
-  #print-btn { display: none; }
+  #print-btn, .portrait { display: none; }   /* the joke doesn't work on paper */
+  .hero { display: block; }
   .actions { margin-top: .5rem; }
   .btn, .btn.primary { padding: 0; border: 0; background: none; color: var(--text); font-size: inherit; }
   .btn[href*="linkedin.com"]::after { content: ": linkedin.com/in/krzysztof-piotrowski-22235b139"; color: var(--muted); }
