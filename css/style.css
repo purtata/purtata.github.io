@@ -166,21 +166,6 @@ body > footer { padding-bottom: 48px; }
 .btn.primary { background: var(--accent); color: var(--bg); }
 .btn:hover   { text-decoration: underline; }
 
-.cta {
-  margin-top: 1rem;
-  font-size: .95rem;
-  color: var(--muted);
-}
-.cta::before {                  /* small olive dot, purely decorative */
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: .5rem;
-  border-radius: 50%;
-  background: var(--accent);
-  vertical-align: middle;
-}
 
 
 /* ---------- 5b. AI portrait (a wink, not the centre of the page) ----------
@@ -393,7 +378,6 @@ footer p + p { margin-top: .3rem; }
   .actions { margin-top: .5rem; }
   .btn, .btn.primary { padding: 0; border: 0; background: none; color: var(--text); font-size: inherit; }
   .btn[href*="linkedin.com"]::after { content: ": linkedin.com/in/krzysztof-piotrowski-22235b139"; color: var(--muted); }
-  .cta { margin-top: .4rem; }
 
   main section { margin-top: 1.1rem; padding-top: .6rem; }
   h2 { margin-bottom: .5rem; font-size: 13pt; }
