@@ -1,6 +1,6 @@
 # CV content (source of truth for the website)
 
-> **Translations:** the Polish and German versions live directly in `pl/index.html` and `de/index.html`. When this text changes, change those two pages too.
+> **Translations:** the German version lives directly in `de/index.html`. When this text changes, change that page too.
 >
 > **Status: DRAFT v3 (AI work report + 360° feedback).** Krzysztof reviews this, and once he approves it, it becomes the text of the website (Phase 3).
 > Markers:
