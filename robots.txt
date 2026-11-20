@@ -1,6 +1,8 @@
-# Allow everything. Search engines must be able to fetch the page to see its
-# robots meta tag (currently "noindex" until launch). Blocking here would hide that tag.
+# The CV page is open to all search engines.
+# Helper files (the CV text draft, the share-image source) are not meant to be found.
 User-agent: *
 Allow: /
+Disallow: /content.md
+Disallow: /tools/
 
 Sitemap: https://purtata.github.io/sitemap.xml
