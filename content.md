@@ -1,5 +1,7 @@
 # CV content (source of truth for the website)
 
+> **Translations:** the German version lives directly in `de/index.html`. When this text changes, change that page too.
+>
 > **Status: DRAFT v3 (AI work report + 360° feedback).** Krzysztof reviews this, and once he approves it, it becomes the text of the website (Phase 3).
 > Markers:
 > - **[?]**: Krzysztof to confirm or fill in. Never invented.
