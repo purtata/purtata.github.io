@@ -12,8 +12,7 @@
 Senior Guidewire Developer
 Rawicz, Poland · Remote
 LinkedIn: https://www.linkedin.com/in/krzysztof-piotrowski-22235b139
-Contact: contact form on the page (no phone, no address)
-Call to action: *Open to interesting projects.*
+Contact: LinkedIn only (no phone, no address, no contact form)
 
 ---
 
@@ -36,10 +35,9 @@ Project: **HelvetiaBaloise Germany**, PolicyCenter Policy Management · mixed Ge
 - **AI team lead:** I introduced and promote agentic, AI-assisted development in a team of 20 (8 developers) and onboarded developers across teams to Claude Code (setup, shared artifacts, lessons learned), including a shared knowledge base of validated patterns and lessons learned that every AI session starts from, and a Community of Practice position paper on AI-generated tests.
 - **Built a local "software factory" on Claude Code:** an autonomous pipeline that takes a Jira ticket from intake to a reviewed handover, with specialised agents for scoping, analysis, planning, execution, verification and an independent "skeptic" review. Guardrails: no autonomous pushes, one commit per slice, a decision log, and explicit flags for business assumptions. Works across PolicyCenter, BillingCenter and ClaimCenter.
 - **Built a set of supporting AI skills:** Guidewire code review against acceptance criteria, profiler-export analysis (N+1 queries, SQL traced to Gosu callers), log investigation with a non-production guardrail, converting BA story cards and BPMN diagrams to text, and Guidewire knowledge skills (SQL with schema validation, GUnit, effective dating, workflows).
-- **Delivered many tickets with AI support since May 2026** (features, bugs, performance), for example a multi-phase premium-regulation feature, producer change as a policy change, data migrations, and a cross-system PolicyCenter / ClaimCenter / BillingCenter integration.
+- **Delivered many tickets with AI support** (features, bugs, performance), for example a multi-phase premium-regulation feature, producer change as a policy change, data migrations, and a cross-system PolicyCenter / ClaimCenter / BillingCenter integration.
 - **Profiling-driven performance work:** eliminated most of the SQL in a key renewal process, cut a heavy screen to a fraction of its queries, made a hot lookup several times faster with a cluster cache, replaced N+1 loads with batch loads, and reworked cross-system calls to fix timeouts on large accounts.
-- **Business and production analysis:** shape user stories with BAs before development (Three Amigos); investigate production incidents on production data (SQL, Splunk) and turn the root causes into story and solution changes, with plain-language summaries in English and German for BAs and testers.
-- Step in when delivery is blocked: build and CI problems, a failed renewal run, production monitoring.
+- **Business and production analysis:** shape user stories with BAs before development; investigate production incidents on production data (SQL, Splunk) and turn the root causes into story and solution changes, with plain-language summaries in English and German for BAs and testers.
 - Built PolicyCenter processes for new products: residential building, household and commercial insurance.
 - Maintain and fix existing product processes, mainly motor insurance (KFZ).
 - Mentor and train developers and stay active in code reviews; support recruitment and volunteered for the people-lead role.
@@ -104,7 +102,7 @@ Note for the page: *Since Palisades, Guidewire's product-specific certifications
 ## Skills
 
 - **Guidewire:** PolicyCenter, ClaimCenter, BillingCenter, ContactManager (self-managed InsuranceSuite 10.2) · product model (APD, system tables) · PCF · rating support
-- **Integration and processing:** GW Messaging, SOAP, REST, workflows, batch processes, work queues, data migration
+- **Guidewire integration and processing:** GW Messaging, SOAP, REST, workflows, batch processes, work queues, data migration
 - **AI-assisted engineering:** Claude Code, multi-agent workflows, agent and skill design, AI code review, context engineering (knowledge bases)
 - **Languages:** Gosu, Java, SQL
 - **Tools and practices:** Git, Bitbucket, Jenkins, GitHub Actions, Jira, GUnit, Guidewire Profiler, Splunk, Scrum, SAFe
