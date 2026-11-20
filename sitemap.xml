@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://purtata.github.io/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purtata.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://purtata.github.io/pl/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://purtata.github.io/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purtata.github.io/"/>
+  </url>
+  <url>
+    <loc>https://purtata.github.io/pl/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purtata.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://purtata.github.io/pl/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://purtata.github.io/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purtata.github.io/"/>
+  </url>
+  <url>
+    <loc>https://purtata.github.io/de/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://purtata.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://purtata.github.io/pl/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://purtata.github.io/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://purtata.github.io/"/>
   </url>
 </urlset>
