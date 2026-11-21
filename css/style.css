@@ -311,26 +311,6 @@ h3 { font-size: 1.1rem; }
 }
 
 
-/* ---------- 8b. Colleague quotes ----------
-   Quiet serif italics with a thin olive rule on the left: no boxes, no icons.
-   The quotation marks are added by CSS, so the HTML holds only the words.   */
-
-.quote { margin: 0; }
-.quote + .quote { margin-top: 1.4rem; }
-
-.quote blockquote {
-  margin: 0;
-  padding-left: 1.2rem;
-  border-left: 2px solid var(--accent);
-  font-family: var(--font-head);
-  font-style: italic;
-  font-size: 1.15rem;
-  line-height: 1.5;
-}
-.quote blockquote p::before { content: "“"; }
-.quote blockquote p::after  { content: "”"; }
-
-
 /* ---------- 9. Description lists (skills, languages, education) ---------- */
 
 dl { margin: 0; }
@@ -405,7 +385,7 @@ footer p + p { margin-top: .3rem; }
 
   /* Keep things together where a split would look broken */
   /* A long job may continue on the next page, but its title + dates stay with the first bullet */
-  li, .cert-group, .badge, .quote, .cols > section, .skills dt, .skills dd { break-inside: avoid; }
+  li, .cert-group, .badge, .cols > section, .skills dt, .skills dd { break-inside: avoid; }
   h2, h3, .where, .steps, .project { break-after: avoid; }
 
   .cert-group + .cert-group { margin-top: .8rem; }
