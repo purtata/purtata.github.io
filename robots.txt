@@ -1,8 +1,7 @@
 # The CV page is open to all search engines.
-# Helper files (the CV text draft, the share-image source) are not meant to be found.
+# The share-image source (tools/) is a helper file and not meant to be found.
 User-agent: *
 Allow: /
-Disallow: /content.md
 Disallow: /tools/
 
 Sitemap: https://purtata.github.io/sitemap.xml
