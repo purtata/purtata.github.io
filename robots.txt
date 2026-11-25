@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 Disallow: /tools/
 
-Sitemap: https://purtata.github.io/sitemap.xml
+Sitemap: https://krzysztofpiotrowski.com/sitemap.xml

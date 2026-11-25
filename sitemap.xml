@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://purtata.github.io/</loc>
-    <lastmod>2026-11-21</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://purtata.github.io/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://purtata.github.io/de/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://purtata.github.io/"/>
+    <loc>https://krzysztofpiotrowski.com/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krzysztofpiotrowski.com/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://krzysztofpiotrowski.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://krzysztofpiotrowski.com/"/>
   </url>
   <url>
-    <loc>https://purtata.github.io/de/</loc>
-    <lastmod>2026-11-21</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://purtata.github.io/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://purtata.github.io/de/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://purtata.github.io/"/>
+    <loc>https://krzysztofpiotrowski.com/de/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krzysztofpiotrowski.com/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://krzysztofpiotrowski.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://krzysztofpiotrowski.com/"/>
   </url>
 </urlset>
