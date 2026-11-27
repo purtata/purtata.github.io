@@ -18,3 +18,8 @@ design/
 
 # CV text draft: private working notes, kept locally
 content.md
+
+# Astro: installed packages, build output, generated types
+node_modules/
+dist/
+.astro/

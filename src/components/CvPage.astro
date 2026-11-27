@@ -1,0 +1,145 @@
+---
+// The CV page. One template for every language: the text comes from src/data/<lang>.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Content } from '../data/types';
+import {
+  NAME, LINKEDIN_URL, LINKEDIN_PRINT, CERT_CHECKER_URL, OG_IMAGE, LANGUAGES, CERT_GROUPS, absolute, jsonLd,
+} from '../data/site';
+
+interface Props {
+  content: Content;
+}
+const { content: t } = Astro.props;
+const here = LANGUAGES.find((l) => l.lang === t.lang)!;
+const others = LANGUAGES.filter((l) => l !== here);
+---
+<BaseLayout lang={t.lang} title={t.meta.title}>
+  <Fragment slot="head">
+    <meta name="description" content={t.meta.description}>
+    <link rel="canonical" href={absolute(here.path)}>
+    {LANGUAGES.map((l) => <link rel="alternate" hreflang={l.lang} href={absolute(l.path)}>)}
+    <link rel="alternate" hreflang="x-default" href={absolute(LANGUAGES[0].path)}>
+
+    <!-- Link previews (LinkedIn, Slack, Teams, Facebook: Open Graph; X: Twitter card) -->
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content={absolute(here.path)}>
+    <meta property="og:title" content={t.meta.title}>
+    <meta property="og:description" content={t.meta.ogDescription}>
+    <meta property="og:image" content={absolute(OG_IMAGE)}>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content={t.meta.ogImageAlt}>
+    <meta property="og:locale" content={here.ogLocale}>
+    {others.map((l) => <meta property="og:locale:alternate" content={l.ogLocale}>)}
+    <meta property="profile:first_name" content="Krzysztof">
+    <meta property="profile:last_name" content="Piotrowski">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Structured data: tells search engines "this page is about a person" -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd(t))} />
+  </Fragment>
+
+  <header class="hero">
+    <nav class="lang" aria-label={t.langNavLabel}>
+      {LANGUAGES.map((l) => (
+        <a href={l.path} lang={l.lang} hreflang={l.lang} aria-current={l.lang === t.lang ? 'page' : undefined}>{l.label}</a>
+      ))}
+    </nav>
+    <figure class="portrait">
+      <img src="/assets/portrait-ai.jpg" width="112" height="112" alt={t.portrait.alt}>
+      <figcaption>{t.portrait.caption}<br><span>{t.portrait.note}</span></figcaption>
+    </figure>
+    <h1>{NAME}</h1>
+    <p class="role">{t.role}</p>
+    <p class="meta">{t.location}</p>
+    <p class="pitch">{t.pitch}</p>
+    <p class="actions">
+      <a class="btn primary" href={LINKEDIN_URL} rel="me" data-print={LINKEDIN_PRINT}>LinkedIn</a>
+      <button class="btn" type="button" id="print-btn" hidden>{t.printLabel}</button>
+    </p>
+  </header>
+
+  <main>
+
+    <section id="profile" aria-labelledby="profile-title">
+      <h2 id="profile-title">{t.headings.profile}</h2>
+      {t.profile.map((p) => <p>{p}</p>)}
+    </section>
+
+    <section id="experience" aria-labelledby="experience-title">
+      <h2 id="experience-title">{t.headings.experience}</h2>
+      {t.jobs.map((job) => (
+        <article class="job">
+          <h3>{job.title}</h3>
+          <p class="where">
+            {job.from && <><time datetime={job.from.date}>{job.from.label}</time> – </>}
+            {job.to && (typeof job.to === 'string' ? job.to : <time datetime={job.to.date}>{job.to.label}</time>)}
+            {job.from && ' · '}{job.place}
+          </p>
+          {job.steps && <p class="steps">{job.steps}</p>}
+          {job.project && <p class="project">{job.project}</p>}
+          <ul>
+            {job.bullets.map((b) => <li>{b.lead && <strong>{b.lead}</strong>}{b.text}</li>)}
+          </ul>
+        </article>
+      ))}
+    </section>
+
+    <section id="certifications" aria-labelledby="certifications-title">
+      <h2 id="certifications-title">{t.headings.certifications}</h2>
+      {CERT_GROUPS.map((group) => (
+        <div class:list={['cert-group', { minor: group.minor }]}>
+          <h3>{group.title}</h3>
+          <ul class="badges">
+            {group.badges.map((badge) => (
+              <li class="badge">
+                <img src={`/assets/certs/${badge.img}`} width="94" height="106" loading="lazy" alt={badge.alt}>
+                <p>{badge.name}{badge.releases && (
+                  <><br><span class="releases">{badge.releases.map((line, i) => <>{i > 0 && <br>}{line}</>)}</span></>
+                )}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      {/* {' '} is an explicit space: the HTML minifier drops a bare line break between text and a tag. */}
+      <p class="note">{t.certNote.before}{' '}<a href={CERT_CHECKER_URL}>{t.certNote.link}</a>{t.certNote.after}</p>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-title">
+      <h2 id="skills-title">{t.headings.skills}</h2>
+      <dl class="skills">
+        {t.skills.map((s) => <><dt>{s.term}</dt><dd>{s.detail}</dd></>)}
+      </dl>
+    </section>
+
+    <div class="cols">
+      <section id="languages" aria-labelledby="languages-title">
+        <h2 id="languages-title">{t.headings.languages}</h2>
+        <dl>
+          {t.languages.map((s) => <><dt>{s.term}</dt><dd>{s.detail}</dd></>)}
+        </dl>
+      </section>
+
+      <section id="education" aria-labelledby="education-title">
+        <h2 id="education-title">{t.headings.education}</h2>
+        <dl>
+          {t.education.map((s) => <><dt>{s.term}</dt><dd>{s.detail}</dd></>)}
+        </dl>
+      </section>
+    </div>
+
+    <section id="interests" aria-labelledby="interests-title">
+      <h2 id="interests-title">{t.headings.interests}</h2>
+      <p>{t.interests}</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>{t.footer.copyright}</p>
+    <p>{t.footer.trademark}</p>
+  </footer>
+
+  <script src="../scripts/print.js"></script>
+</BaseLayout>

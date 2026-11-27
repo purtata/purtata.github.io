@@ -1,0 +1,24 @@
+---
+// The frame every page shares: <html>, <head> basics, the stylesheet.
+// Page-specific <head> tags (canonical, OG, JSON-LD…) come in through the "head" slot.
+import '../styles/style.css';   // Astro bundles this into /_astro/<name>.<hash>.css and links it
+
+interface Props {
+  lang: string;
+  title: string;
+}
+const { lang, title } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <slot name="head" />
+</head>
+<body>
+  <slot />
+</body>
+</html>
