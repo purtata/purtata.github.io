@@ -20,6 +20,7 @@
     "@types/node": "^24.19.4",
     "html-validate": "^11.23.0",
     "linkinator": "^8.1.0",
+    "pdfjs-dist": "^6.5.438",
     "typescript": "^6.0.3"
   }
 }
