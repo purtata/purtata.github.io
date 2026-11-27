@@ -5,13 +5,22 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "npm run test:html && npm run test:browser",
+    "test:html": "html-validate \"dist/**/*.html\"",
+    "test:browser": "playwright test"
   },
   "dependencies": {
     "astro": "^7.4.13"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.1",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^24.19.4",
+    "html-validate": "^11.23.0",
+    "linkinator": "^8.1.0",
+    "pdfjs-dist": "^6.5.438",
     "typescript": "^6.0.3"
   }
 }
