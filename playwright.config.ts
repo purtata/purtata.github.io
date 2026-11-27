@@ -1,4 +1,4 @@
-// Browser checks (accessibility, links) against the built site.
+// Browser checks (accessibility, links, PDF) against the built site.
 // `npm run test:browser` starts `astro preview` (serves dist/), runs tests/*.spec.ts, then stops it.
 import { defineConfig, devices } from '@playwright/test';
 

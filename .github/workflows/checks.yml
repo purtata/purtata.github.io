@@ -40,5 +40,5 @@ jobs:
       - name: Install the browser for the checks
         run: npx playwright install --with-deps chromium
 
-      - name: Accessibility (axe) and links
+      - name: Browser checks (axe, links, PDF)
         run: npm run test:browser
