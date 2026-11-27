@@ -3,7 +3,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Content } from '../data/types';
 import {
-  NAME, LINKEDIN_URL, CERT_CHECKER_URL, OG_IMAGE, LANGUAGES, CERT_GROUPS, absolute, jsonLd,
+  NAME, LINKEDIN_URL, LINKEDIN_PRINT, CERT_CHECKER_URL, OG_IMAGE, LANGUAGES, CERT_GROUPS, absolute, jsonLd,
 } from '../data/site';
 
 interface Props {
@@ -54,7 +54,7 @@ const others = LANGUAGES.filter((l) => l !== here);
     <p class="meta">{t.location}</p>
     <p class="pitch">{t.pitch}</p>
     <p class="actions">
-      <a class="btn primary" href={LINKEDIN_URL} rel="me">LinkedIn</a>
+      <a class="btn primary" href={LINKEDIN_URL} rel="me" data-print={LINKEDIN_PRINT}>LinkedIn</a>
       <button class="btn" type="button" id="print-btn" hidden>{t.printLabel}</button>
     </p>
   </header>

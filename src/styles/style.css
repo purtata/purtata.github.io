@@ -374,7 +374,7 @@ footer p + p { margin-top: .3rem; }
   .hero { display: block; }
   .actions { margin-top: .5rem; }
   .btn, .btn.primary { padding: 0; border: 0; background: none; color: var(--text); font-size: inherit; }
-  .btn[href*="linkedin.com"]::after { content: ": linkedin.com/in/krzysztof-piotrowski-22235b139"; color: var(--muted); }
+  .btn[data-print]::after { content: ": " attr(data-print); color: var(--muted); }   /* the address comes from site.ts */
 
   main section { margin-top: 1.1rem; padding-top: .6rem; }
   h2 { margin-bottom: .5rem; font-size: 13pt; }
