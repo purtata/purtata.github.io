@@ -1,0 +1,44 @@
+# Quality checks for every pull request. With "checks" set as a required status check
+# on main, GitHub won't let a PR merge until all of them pass.
+# Locally: npm run build && npm test
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A new push to the same PR cancels the run that is still going for the old commit.
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm                      # reuse downloaded packages between runs
+
+      - name: Install packages (exact versions from package-lock.json)
+        run: npm ci
+
+      - name: Build (type check + astro build)
+        run: npm run build
+
+      - name: Validate HTML
+        run: npm run test:html
+
+      - name: Install the browser for the checks
+        run: npx playwright install --with-deps chromium
+
+      - name: Accessibility (axe) and links
+        run: npm run test:browser
