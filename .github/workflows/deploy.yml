@@ -1,0 +1,39 @@
+# Builds the site with Astro and publishes dist/ to GitHub Pages.
+# Runs on every push to main (= every merged PR), and by hand from the Actions tab.
+# Needs Settings → Pages → Source: "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# The job may read the repo, publish to Pages, and prove its identity to Pages (OIDC token).
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; a newer push cancels nothing that is already publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # installs packages (npm, found from package-lock.json) → npm run build → uploads dist/ as the Pages artifact
+      - uses: withastro/action@v6
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

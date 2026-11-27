@@ -12,37 +12,37 @@
    characters, so it only downloads what the page actually uses.            */
 
 @font-face { font-family: "Inter"; font-weight: 400; font-display: swap;
-  src: url(../fonts/inter-latin-400-normal.woff2) format("woff2");
+  src: url(/fonts/inter-latin-400-normal.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
 @font-face { font-family: "Inter"; font-weight: 400; font-display: swap;
-  src: url(../fonts/inter-latin-ext-400-normal.woff2) format("woff2");
+  src: url(/fonts/inter-latin-ext-400-normal.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF; }
 @font-face { font-family: "Inter"; font-weight: 600; font-display: swap;
-  src: url(../fonts/inter-latin-600-normal.woff2) format("woff2");
+  src: url(/fonts/inter-latin-600-normal.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
 @font-face { font-family: "Inter"; font-weight: 600; font-display: swap;
-  src: url(../fonts/inter-latin-ext-600-normal.woff2) format("woff2");
+  src: url(/fonts/inter-latin-ext-600-normal.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF; }
 
 @font-face { font-family: "Source Serif"; font-weight: 400; font-display: swap;
-  src: url(../fonts/source-serif-4-latin-400-normal.woff2) format("woff2");
+  src: url(/fonts/source-serif-4-latin-400-normal.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
 @font-face { font-family: "Source Serif"; font-weight: 400; font-display: swap;
-  src: url(../fonts/source-serif-4-latin-ext-400-normal.woff2) format("woff2");
+  src: url(/fonts/source-serif-4-latin-ext-400-normal.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF; }
 @font-face { font-family: "Source Serif"; font-weight: 600; font-display: swap;
-  src: url(../fonts/source-serif-4-latin-600-normal.woff2) format("woff2");
+  src: url(/fonts/source-serif-4-latin-600-normal.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
 @font-face { font-family: "Source Serif"; font-weight: 600; font-display: swap;
-  src: url(../fonts/source-serif-4-latin-ext-600-normal.woff2) format("woff2");
+  src: url(/fonts/source-serif-4-latin-ext-600-normal.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF; }
 
 
 @font-face { font-family: "Source Serif"; font-weight: 400; font-style: italic; font-display: swap;
-  src: url(../fonts/source-serif-4-latin-400-italic.woff2) format("woff2");
+  src: url(/fonts/source-serif-4-latin-400-italic.woff2) format("woff2");
   unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
 @font-face { font-family: "Source Serif"; font-weight: 400; font-style: italic; font-display: swap;
-  src: url(../fonts/source-serif-4-latin-ext-400-italic.woff2) format("woff2");
+  src: url(/fonts/source-serif-4-latin-ext-400-italic.woff2) format("woff2");
   unicode-range: U+0100-024F, U+1E00-1EFF; }
 
 
@@ -136,7 +136,7 @@ body > footer { padding-bottom: 48px; }
 
 /* ---------- 5. Hero ---------- */
 
-/* Language switcher (EN · PL · DE), top right of the header */
+/* Language switcher (EN · DE), top right of the header */
 .lang {
   display: flex;
   justify-content: flex-end;
