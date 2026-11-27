@@ -2,7 +2,8 @@
 // `npm run test:browser` starts `astro preview` (serves dist/), runs tests/*.spec.ts, then stops it.
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 4321;
+// Not 4321: that is `npm run dev`'s port, and the checks must run on the build, not the dev server.
+const PORT = 4322;
 
 export default defineConfig({
   testDir: 'tests',
@@ -13,6 +14,6 @@ export default defineConfig({
   webServer: {
     command: `npm run preview -- --port ${PORT}`,
     url: `http://localhost:${PORT}/`,
-    reuseExistingServer: !process.env.CI,   // locally, use a preview you already have running
+    reuseExistingServer: false,             // always start a fresh preview of dist/
   },
 });

@@ -55,8 +55,12 @@ for (const content of [en, de] as Content[]) {
         content.role, content.location, content.pitch,
         ...Object.values(content.headings),
         ...content.profile,
-        ...content.jobs.flatMap((j) => [j.title, j.place, j.steps, j.project, ...j.bullets.map((b) => (b.lead ?? '') + b.text)]),
-        ...CERT_GROUPS.flatMap((g) => [g.title, ...g.badges.map((b) => b.name)]),
+        ...content.jobs.flatMap((j) => [
+          j.title, j.from?.label, typeof j.to === 'string' ? j.to : j.to?.label, j.place, j.steps, j.project,
+          ...j.bullets.map((b) => (b.lead ?? '') + b.text),
+        ]),
+        ...CERT_GROUPS.flatMap((g) => [g.title, ...g.badges.flatMap((b) => [b.name, ...(b.releases ?? [])])]),
+        content.certNote.before, content.certNote.link + content.certNote.after,
         ...content.skills.flatMap((e) => [e.term, e.detail]),
         ...content.languages.flatMap((e) => [e.term, e.detail]),
         ...content.education.flatMap((e) => [e.term, e.detail]),
@@ -71,9 +75,10 @@ for (const content of [en, de] as Content[]) {
     test('has no screen-only parts and no private data', async ({ page }) => {
       const pdf = await readPdf(await makePdf(page, path));
 
-      expect(pdf.text, 'print button').not.toContain(content.printLabel);
-      expect(pdf.text, 'portrait caption (photo is hidden on paper)').not.toContain(norm(content.portrait.caption));
-      expect(pdf.text, 'e-mail address').not.toMatch(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
+      // Compared without spaces too: pdf.js may glue words of one line together ("Save asPDF").
+      expect(pdf.squashed, 'print button').not.toContain(squash(content.printLabel));
+      expect(pdf.squashed, 'portrait caption (photo is hidden on paper)').not.toContain(squash(content.portrait.caption));
+      expect(pdf.squashed, 'e-mail address').not.toMatch(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
       expect(pdf.text, 'phone number').not.toMatch(/\+?\d[\d ()/-]{7,}\d/);
     });
 

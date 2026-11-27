@@ -12,9 +12,10 @@ permissions:
   contents: read
 
 # A new push to the same PR cancels the run that is still going for the old commit.
+# On main every merge commit gets its own complete run.
 concurrency:
   group: checks-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   checks:
