@@ -11,7 +11,17 @@ export const de: Content = {
     ogImageAlt: 'Krzysztof Piotrowski, Lead / Senior Guidewire Engineer',
   },
 
-  langNavLabel: 'Sprache',
+  ui: {
+    langNav: 'Sprache',
+    sectionsNav: 'Abschnitte',
+    menu: 'Menü',
+    facts: 'Eckdaten',
+    expandAll: 'Alle aufklappen',
+    collapseAll: 'Alle zuklappen',
+    now: 'heute',
+    print: 'Als PDF speichern',
+  },
+
   portrait: {
     alt: 'KI-generiertes Porträt von Krzysztof Piotrowski in Sepiatönen, mit einem digitalen Raster über dem Gesicht und leuchtenden Augen hinter der Brille',
     caption: 'So sieht mich Claude nach einer langen Session.',
@@ -20,17 +30,22 @@ export const de: Content = {
   role: 'Lead / Senior Guidewire Engineer',
   location: 'Rawicz, Polen · Remote',
   pitch: 'Seit 2017 entwickle ich Versicherungssysteme in Guidewire, für Versicherer in Deutschland, der Schweiz und Polen. In meinem Team leite ich den Umstieg auf KI-gestützte Softwareentwicklung mit Claude Code.',
-  printLabel: 'Als PDF speichern',
 
-  headings: {
-    profile: 'Profil',
-    experience: 'Berufserfahrung',
-    certifications: 'Zertifizierungen',
-    skills: 'Kenntnisse',
-    languages: 'Sprachen',
-    education: 'Ausbildung',
-    interests: 'Interessen',
+  facts: {
+    guidewireYears: 'Jahre Guidewire-Erfahrung',
+    certifications: 'Guidewire-Zertifizierungen',
+    markets: 'Versicherungsmärkte: DE · CH · PL',
+    businessYears: 'Jahre als Inhaber im Bank- und Versicherungsvertrieb',
   },
+
+  sections: {
+    profile: { label: 'Profil', heading: 'Profil', menu: 'Profil' },
+    experience: { label: 'Berufserfahrung', heading: 'Berufliche Stationen', menu: 'Berufserfahrung' },
+    certifications: { label: 'Zertifizierungen', heading: 'Guidewire-zertifiziert', menu: 'Zertifizierungen' },
+    skills: { label: 'Kenntnisse', heading: 'Womit ich arbeite', menu: 'Kenntnisse' },
+    more: { label: 'Mehr', heading: 'Sprachen, Ausbildung & Interessen', menu: 'Sprachen & mehr' },
+  },
+  more: { languages: 'Sprachen', education: 'Ausbildung', interests: 'Interessen' },
 
   profile: [
     'Senior Guidewire Developer, seit 2017 in der Entwicklung von Versicherungssystemen. Ich arbeite mit PolicyCenter, ClaimCenter und BillingCenter, in Konfiguration und Integration, für Versicherer in Deutschland, der Schweiz und Polen. Ich bin zertifizierter Guidewire Associate InsuranceSuite Developer und Configuration Specialist für PolicyCenter, ClaimCenter und BillingCenter.',
@@ -40,11 +55,13 @@ export const de: Content = {
 
   jobs: [
     {
-      title: 'Senior Guidewire Developer · Baloise Solution Hub',
+      role: 'Senior Guidewire Developer',
+      org: 'Baloise Solution Hub',
       from: { date: '2025-07', label: 'Juli 2025' },
       to: 'heute',
-      place: 'Warschau · Bad Homburg · Remote',
-      project: 'HelvetiaBaloise Deutschland, PolicyCenter Bestandsführung · gemischtes Team beim deutschen Kunden (Beratung und interne Entwicklung)',
+      place: 'Warschau · Bad Homburg · Remote · gemischtes Team beim deutschen Kunden (Beratung und interne Entwicklung)',
+      summary: 'HelvetiaBaloise Deutschland · PolicyCenter Bestandsführung · KI-Teamlead',
+      tags: ['PolicyCenter', 'Claude Code', 'Performance', 'Agentic AI'],
       bullets: [
         { lead: 'KI-Teamlead:', text: ' Ich habe agentische, KI-gestützte Entwicklung in einem Team von 20 Personen (8 Entwickler) eingeführt und treibe sie voran. Entwickler und BAs aus mehreren Teams habe ich in Claude Code eingearbeitet (Setup, gemeinsame Artefakte, Lessons Learned).' },
         { lead: 'Lokale „Software Factory“ auf Basis von Claude Code:', text: ' eine autonome Pipeline, die ein Jira-Ticket von der Aufnahme bis zur geprüften Übergabe begleitet, mit spezialisierten Agenten für Scoping, Analyse, Planung, Umsetzung und Verifikation sowie einem unabhängigen „Skeptiker“-Review. Funktioniert über PolicyCenter, BillingCenter und ClaimCenter hinweg.' },
@@ -57,11 +74,13 @@ export const de: Content = {
       ],
     },
     {
-      title: 'Senior / Lead Guidewire Developer · Beesafe',
+      role: 'Senior / Lead Guidewire Developer',
+      org: 'Beesafe',
       from: { date: '2023-05', label: 'Mai 2023' },
       to: { date: '2025-06', label: 'Juni 2025' },
       place: 'Warschau',
-      project: 'Beesafe / Compensa Polen, PolicyCenter, ClaimCenter und BillingCenter',
+      summary: 'Beesafe / Compensa Polen · Kernteam',
+      tags: ['PolicyCenter', 'ClaimCenter', 'BillingCenter'],
       bullets: [
         { text: 'Guidewire-Anwendungen im Kernteam gewartet und weiterentwickelt, in enger Zusammenarbeit mit anderen Teams und den Fachbereichen.' },
         { text: 'PolicyCenter: alle Vertragstransaktionen, die Nachverarbeitung und Integrationen mit anderen Systemen; Produktmodell: Systemtabellen, APD, neue Deckungen und Unterstützung der Aktuare bei Tarifänderungen.' },
@@ -72,12 +91,13 @@ export const de: Content = {
       ],
     },
     {
-      title: 'Junior → Senior Software Engineer · Capgemini',
+      role: 'Junior → Senior Software Engineer',
+      org: 'Capgemini',
       from: { date: '2017-11', label: 'November 2017' },
       to: { date: '2023-04', label: 'April 2023' },
       place: 'Wrocław',
-      steps: 'Junior 2017–2018 · Engineer 2019 · Senior 2020–2023',
-      project: 'AXA Deutschland, Guidewire PolicyCenter',
+      summary: 'AXA Deutschland · Guidewire PolicyCenter · Junior 2017–2018 · Engineer 2019 · Senior 2020–2023',
+      tags: ['PolicyCenter', 'Integration', 'Datenmigration'],
       bullets: [
         { text: 'Vertragstransaktionen und deren Nachverarbeitung konfiguriert, einschließlich erweiterter Konfiguration von Standard-Jobs und kundenspezifischen Prozessen.' },
         { text: 'PolicyCenter-Integrationen gebaut: GW Messaging, SOAP- und REST-Services, Provisioning-Systeme, Dokumentenerstellung.' },
@@ -88,18 +108,24 @@ export const de: Content = {
       ],
     },
     {
-      title: 'Junior Software Engineer · Tieto',
+      role: 'Junior Software Engineer',
+      org: 'Tieto',
       from: { date: '2017-04', label: 'April 2017' },
       to: { date: '2017-10', label: 'Oktober 2017' },
       place: 'Wrocław',
+      summary: 'Android · Multimedia-Framework für Sony',
       bullets: [
         { text: 'Mobile Android-Apps entwickelt.' },
         { text: 'Android Multimedia Framework für Sony weiterentwickelt und debuggt.' },
       ],
     },
     {
-      title: 'Frühere Laufbahn: Bank- und Versicherungswesen',
-      place: '2009 – 2017 · Rawicz · parallel als eigene Unternehmen geführt',
+      role: 'Frühere Laufbahn: Bank- und Versicherungswesen',
+      org: 'PZU · Finanse Domowe · Alior Bank',
+      from: { date: '2009', label: '2009' },
+      to: { date: '2017', label: '2017' },
+      summary: 'Rawicz · parallel als eigene Unternehmen geführt',
+      earlier: true,
       bullets: [
         { lead: 'PZU', text: ', Versicherungsagent / Inhaber (2015 – 2017): Vertrieb von Schaden- und Unfallversicherungen (Kfz, Wohnen, Reise, Gewerbe).' },
         { lead: 'Finanse Domowe', text: ', Filialleiter / Inhaber (2014 – 2017): Beratung zu Baufinanzierungen und Versicherungen, Teamführung.' },
@@ -107,10 +133,12 @@ export const de: Content = {
       ],
     },
     {
-      title: 'IT-Berater · Poradnia Psychologiczno-Pedagogiczna w Rawiczu',
+      role: 'IT-Berater',
+      org: 'Poradnia Psychologiczno-Pedagogiczna w Rawiczu',
       from: { date: '2003-11', label: 'November 2003' },
       to: { date: '2007-11', label: 'November 2007' },
       place: 'Rawicz',
+      earlier: true,
       bullets: [
         { text: 'Softwareinstallation, Hardwarekonfiguration und Anwenderbetreuung.' },
       ],
@@ -118,24 +146,24 @@ export const de: Content = {
   ],
 
   certNote: {
-    before: 'Seit Palisades liegen die produktspezifischen Guidewire-Zertifizierungen auf Ace-Level; darauf bereite ich mich gerade vor.',
-    link: 'Im Guidewire Certification Checker prüfen',
-    after: ': Vorname „Krzysztof“ und Nachname „Piotrowski“ eingeben.',
+    text: 'Seit Palisades liegen die produktspezifischen Guidewire-Zertifizierungen auf Ace-Level; darauf bereite ich mich gerade vor.',
+    button: 'Im Certification Checker prüfen',
+    hint: 'Vorname „Krzysztof“ und Nachname „Piotrowski“ eingeben.',
   },
 
   skills: [
     { term: 'Guidewire', detail: 'PolicyCenter, ClaimCenter, BillingCenter, ContactManager (self-managed InsuranceSuite 10.2) · Konfiguration von Vertragstransaktionen · Produktmodell (APD, Systemtabellen) · PCF · Unterstützung der Tarifierung' },
-    { term: 'Guidewire-Integration und -Verarbeitung', detail: 'GW Messaging, SOAP, REST, Workflows, Batch-Prozesse, Work Queues, Datenmigration' },
+    { term: 'Guidewire-Integrationen und -Verarbeitung', detail: 'GW Messaging, SOAP, REST, Workflows, Batch-Prozesse, Work Queues, Datenmigration' },
     { term: 'KI-gestützte Softwareentwicklung', detail: 'Claude Code, Multi-Agenten-Workflows, Design von Agenten und Skills, KI-Code-Review, Context Engineering (Wissensbasen)' },
     { term: 'Programmiersprachen', detail: 'Gosu, Java, SQL' },
     { term: 'Tools und Methoden', detail: 'Git, Bitbucket, Jenkins, GitHub Actions, Jira, GUnit, Guidewire Profiler, Splunk, Scrum, SAFe' },
-    { term: 'Kommunikation und Führung', detail: 'Klare Kommunikation zwischen Fachbereich und IT, auf Polnisch, Englisch und Deutsch · Teamführung und Mentoring · Schulung und Onboarding · Kundenorientierung und Verhandlungsgeschick aus vielen Jahren als Inhaber eigener Bank- und Versicherungsgeschäfte' },
+    { term: 'Kommunikation und Führung', detail: 'Fachbereich ↔ IT auf Polnisch, Englisch und Deutsch · Teamführung und Mentoring · Schulung und Onboarding · Kundenorientierung und Verhandlungsgeschick aus meinen eigenen Bank- und Versicherungsgeschäften' },
   ],
 
   languages: [
-    { term: 'Polnisch', detail: 'Muttersprache' },
-    { term: 'Englisch', detail: 'C1' },
-    { term: 'Deutsch', detail: 'B2' },
+    { term: 'Polnisch', detail: 'Muttersprache', level: 6 },
+    { term: 'Englisch', detail: 'C1', level: 5 },
+    { term: 'Deutsch', detail: 'B2', level: 4 },
   ],
 
   education: [
