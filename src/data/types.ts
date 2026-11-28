@@ -74,6 +74,8 @@ export interface Content {
     /** End of the current job in the timeline column: "2025 – now". */
     now: string;
     print: string;
+    /** The light/dark switch. A fixed name; whether dark mode is on is told by aria-pressed. */
+    darkMode: string;
   };
 
   portrait: { alt: string; caption: string; note: string };

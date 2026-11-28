@@ -18,6 +18,9 @@ const { lang, title } = Astro.props;
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   {/* Start loading the font right away, not only after the CSS has been read. crossorigin is required for fonts. */}
   <link rel="preload" href="/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  {/* Before anything is drawn: if the visitor picked light or dark with the switch, use it from the first
+      frame (no flash of the other theme). try: some browsers refuse localStorage (strict privacy settings). */}
+  <script is:inline>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <slot name="head" />
 </head>
 <body>
