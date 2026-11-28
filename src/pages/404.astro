@@ -4,10 +4,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout lang="en" title="Page not found · Krzysztof Piotrowski">
   <meta slot="head" name="robots" content="noindex">
-  <header class="hero">
-    <h1>Page not found</h1>
-    <p class="meta">This address doesn't exist (any more).</p>
-    <p class="actions"><a class="btn primary" href="/">Go to the CV</a></p>
-  </header>
-  <main></main>
+  <main class="hero not-found">
+    <div class="wrap">
+      <div class="intro">
+        <div>
+          <h1>Page not found</h1>
+          <p class="meta">This address doesn't exist (any more).</p>
+          <div class="btn-row"><a class="btn" href="/">Go to the CV</a></div>
+        </div>
+      </div>
+    </div>
+  </main>
 </BaseLayout>

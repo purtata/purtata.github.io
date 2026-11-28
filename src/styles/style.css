@@ -1,400 +1,385 @@
-@charset "UTF-8";
 /* ==========================================================================
-   Krzysztof Piotrowski: CV website
-   Design: "Editorial", minimalism, earth tones, olive accent (Phase 2).
-   Order: fonts → colour tokens → base → layout → sections → components.
+   v2 design (from design/mockup-v2.html): forest green text, terracotta accent,
+   warm off-white blocks, Jost. One file for screen and print.
    ========================================================================== */
 
+/* ---------- Font: Jost, self-hosted (no request to Google or a CDN) ----------
+   One variable font file per alphabet covers every weight from 300 to 600.
+   The browser only downloads latin-ext when the page uses one of its characters
+   (ł, ń, ś…), because of unicode-range. Ranges are Fontsource's. */
+@font-face { font-family: "Jost"; font-weight: 300 600; font-display: swap;
+  src: url(/fonts/jost-latin-wght-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Jost"; font-weight: 300 600; font-display: swap;
+  src: url(/fonts/jost-latin-ext-wght-normal.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* ---------- 1. Fonts: self-hosted (nothing is loaded from Google: GDPR) ----------
-   Each family is split into two files: "latin" (basic letters) and "latin-ext"
-   (Polish ł, ó, ę…). unicode-range tells the browser which file holds which
-   characters, so it only downloads what the page actually uses.            */
-
-@font-face { font-family: "Inter"; font-weight: 400; font-display: swap;
-  src: url(/fonts/inter-latin-400-normal.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
-@font-face { font-family: "Inter"; font-weight: 400; font-display: swap;
-  src: url(/fonts/inter-latin-ext-400-normal.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF; }
-@font-face { font-family: "Inter"; font-weight: 600; font-display: swap;
-  src: url(/fonts/inter-latin-600-normal.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
-@font-face { font-family: "Inter"; font-weight: 600; font-display: swap;
-  src: url(/fonts/inter-latin-ext-600-normal.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF; }
-
-@font-face { font-family: "Source Serif"; font-weight: 400; font-display: swap;
-  src: url(/fonts/source-serif-4-latin-400-normal.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
-@font-face { font-family: "Source Serif"; font-weight: 400; font-display: swap;
-  src: url(/fonts/source-serif-4-latin-ext-400-normal.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF; }
-@font-face { font-family: "Source Serif"; font-weight: 600; font-display: swap;
-  src: url(/fonts/source-serif-4-latin-600-normal.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
-@font-face { font-family: "Source Serif"; font-weight: 600; font-display: swap;
-  src: url(/fonts/source-serif-4-latin-ext-600-normal.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF; }
-
-
-@font-face { font-family: "Source Serif"; font-weight: 400; font-style: italic; font-display: swap;
-  src: url(/fonts/source-serif-4-latin-400-italic.woff2) format("woff2");
-  unicode-range: U+0000-00FF, U+2000-206F, U+2190-21FF; }
-@font-face { font-family: "Source Serif"; font-weight: 400; font-style: italic; font-display: swap;
-  src: url(/fonts/source-serif-4-latin-ext-400-italic.woff2) format("woff2");
-  unicode-range: U+0100-024F, U+1E00-1EFF; }
-
-
-/* ---------- 2. Colour tokens (CSS variables) ----------
-   Every colour lives here once. The rest of the file only says var(--text) etc.,
-   so dark mode is just "swap the values".
-   Contrast on the background (WCAG AA needs 4.5:1 for text):
-     text 13.3:1 · muted 5.0:1 · accent 5.5:1                                   */
-
+/* ---------- Tokens ---------- */
 :root {
-  --bg:     #F5F1EA;   /* sand */
-  --text:   #2B2622;   /* brown-charcoal */
-  --muted:  #6F665B;   /* stone: dates, captions */
-  --line:   #D9D0C3;   /* hairline dividers (decoration, not text) */
-  --accent: #5C6446;   /* olive: links, job title, button */
-
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-head: "Source Serif", Georgia, "Times New Roman", serif;
-
-  --measure: 760px;    /* max width of the text column */
-  --gutter: 16px;      /* side padding on phones */
-
-  color-scheme: light dark;   /* also gives native scrollbars/forms a dark look */
+  --bg: #FFFFFF;
+  --bg-soft: #F6F6EE;     /* warm off-white: header, hero, alternate sections */
+  --text: #2E4942;        /* forest green: all text */
+  --text-strong: #1F342E;
+  --muted: #5B6F69;
+  --accent: #B87E58;      /* terracotta: lines, dots, icons (decoration only, too light for small text) */
+  --accent-text: #8E5835; /* terracotta dark enough for small text */
+  --sage: #E2E4D2;        /* decorative dots */
+  --btn-bg: #8E5835;      /* button fill: the dark terracotta, so white text stays readable */
+  --btn-text: #FFFFFF;
+  --line: #DCDED1;
+  --band: #2E4942;        /* footer */
+  --band-text: #F6F6EE;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --wrap: 1120px;
+  --text-col: 720px;
+  color-scheme: light dark;
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:     #1F1B17;   /* espresso */
-    --text:   #EDE6DA;   /* warm cream   13.8:1 */
-    --muted:  #A39888;   /*               6.0:1 */
-    --line:   #3A332C;
-    --accent: #9AA07F;   /* sage          6.3:1 */
+    --bg: #14231F; --bg-soft: #1A2C27; --text: #E6E4D8; --text-strong: #F4F2E9;
+    --muted: #A7B4AD; --accent: #C98D64; --accent-text: #DDA680; --sage: #2B423B;
+    --line: #2B3F39; --band: #0E1916; --band-text: #E6E4D8; --btn-bg: #C98D64; --btn-text: #14231F;
   }
 }
 
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }   /* so a class with its own display (.btn) can't show a hidden element */
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }   /* anchor jumps stop below the sticky bar */
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 300 17px/1.65 "Jost", Futura, "Century Gothic", system-ui, sans-serif; }
+h1, h2, h3 { font-weight: 400; color: var(--text-strong); margin: 0; line-height: 1.15; }
+p { margin: 0 0 1em; }
+a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--accent-text); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(20px, 5vw, 56px); }
+.wrap.mid { max-width: 960px; }
+.narrow { max-width: var(--text-col); margin-inline: auto; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* ---------- 3. Base ---------- */
+/* ---------- Buttons (square, uppercase; solid terracotta from the start, no hover effect) ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6em;
+  min-width: 200px; padding: .85em 1.8em; border: 1px solid var(--btn-bg); background: var(--btn-bg);
+  color: var(--btn-text); font: 400 14px/1 "Jost", sans-serif; letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; }
+.btn:hover { color: var(--btn-text); }
+.btn svg { width: 16px; height: 16px; }
 
-*, *::before, *::after { box-sizing: border-box; }   /* width includes padding + border */
+/* ---------- Scroll progress ---------- */
+.progress { position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 60; background: var(--accent);
+  transform-origin: left; transform: scaleX(0); }
 
-html { -webkit-text-size-adjust: 100%; }
+/* ---------- Top bar ---------- */
+.bar { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg-soft) 92%, transparent);
+  backdrop-filter: blur(8px); transition: box-shadow .3s; }
+.bar.scrolled { box-shadow: 0 1px 0 var(--line); }
+.bar .wrap { display: flex; align-items: center; gap: 24px; height: 76px; }
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; font-size: 22px; font-weight: 400; color: var(--text-strong); }
+.brand svg { width: 40px; height: 32px; flex: none; }
+.brand polyline { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.brand circle { fill: var(--sage); }
+.bar .lang { margin-left: auto; font-size: 14px; letter-spacing: .12em; }
+.lang a { text-decoration: none; padding: 4px 2px; color: var(--muted); }
+.lang a[aria-current] { color: var(--text-strong); border-bottom: 1px solid var(--accent); }
+.burger { width: 44px; height: 44px; border: 0; background: none; cursor: pointer; position: relative; color: var(--text-strong); }
+.burger span { position: absolute; left: 6px; right: 6px; height: 2px; background: currentColor;
+  transition: transform .35s var(--ease), opacity .2s; }
+.burger span:nth-child(1) { top: 13px; } .burger span:nth-child(2) { top: 21px; } .burger span:nth-child(3) { top: 29px; }
+.menu-open .burger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-open .burger span:nth-child(2) { opacity: 0; }
+.menu-open .burger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+@media (max-width: 480px) { .brand { font-size: 18px; gap: 10px; } .brand svg { width: 32px; } .bar .wrap { gap: 14px; } }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 400 1rem/1.6 var(--font-body);   /* 1rem = the user's browser setting, usually 16px */
+/* ---------- Full-screen menu ---------- */
+/* Sized by width AND height (min of vw and vh), so all links + buttons fit on short, wide screens.
+   overflow-y: auto is the safety net for very short screens (a phone in landscape). The inner box is
+   centred with margin: auto rather than place-items: center, because centring would push the top of a
+   too-tall menu out of reach of the scrollbar. */
+.menu { position: fixed; inset: 0; z-index: 40; background: var(--bg-soft); padding: 96px 24px 32px;
+  display: grid; overflow-y: auto; visibility: hidden; clip-path: inset(0 0 100% 0);
+  transition: clip-path .55s var(--ease), visibility 0s .55s; }
+.menu > div { margin: auto; }
+.menu-open .menu { visibility: visible; clip-path: inset(0); transition: clip-path .55s var(--ease); }
+.menu ol { list-style: none; margin: 0; padding: 0; counter-reset: m; }
+.menu li { overflow: hidden; }
+.menu li a { display: flex; align-items: baseline; gap: 16px; text-decoration: none; padding: 4px 0; line-height: 1.25;
+  font-size: clamp(22px, min(3.4vw, 5.2vh), 36px); font-weight: 300; color: var(--text-strong);
+  transform: translateY(110%); transition: transform .6s var(--ease), color .2s; }
+.menu li a::before { counter-increment: m; content: "0" counter(m); font-size: 13px; letter-spacing: .1em; color: var(--accent-text); min-width: 1.6em; }
+.menu li a:hover, .menu li a[aria-current="true"] { color: var(--accent-text); }
+.menu-open .menu li a { transform: none; }
+.menu-open .menu li:nth-child(2) a { transition-delay: .05s; } .menu-open .menu li:nth-child(3) a { transition-delay: .1s; }
+.menu-open .menu li:nth-child(4) a { transition-delay: .15s; } .menu-open .menu li:nth-child(5) a { transition-delay: .2s; }
+.menu .menu-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: clamp(20px, 4vh, 36px); }
+
+/* ---------- Hero ---------- */
+/* Intro: the v1 layout (text left, small round portrait right), in the v2 colours */
+.hero { background: var(--bg-soft); padding-block: clamp(48px, 8vw, 96px) clamp(40px, 6vw, 72px); }
+.intro { display: grid; grid-template-columns: 1fr auto; column-gap: 56px; align-items: start; max-width: 860px; margin-inline: auto; }
+.hero h1 { font-size: clamp(36px, 6vw, 54px); letter-spacing: -.005em; }
+.hero .role { font-size: clamp(19px, 2vw, 22px); color: var(--accent-text); margin: 10px 0 2px; font-weight: 400; }
+.hero .meta { color: var(--muted); font-size: 14px; letter-spacing: .14em; text-transform: uppercase; }
+.hero .pitch { max-width: 58ch; margin-top: 22px; font-size: 18px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
+.portrait { margin: 8px 0 0; width: 168px; text-align: center; }
+.portrait img { width: 128px; height: 128px; border-radius: 50%; display: block; margin: 0 auto 14px;
+  outline: 1px solid var(--accent); outline-offset: 6px; }
+.portrait figcaption { font-size: 14px; line-height: 1.45; color: var(--muted); }
+.portrait figcaption span { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 680px) {
+  .intro { grid-template-columns: 1fr; }
+  .portrait { grid-row: 1; display: flex; align-items: center; gap: 16px; width: auto; text-align: left; margin: 0 0 24px; }
+  .portrait img { width: 88px; height: 88px; margin: 0; flex: none; }
 }
 
-h1, h2, h3 {
-  margin: 0;
-  font-family: var(--font-head);
-  font-weight: 600;
-  line-height: 1.25;
+/* ---------- Key facts ---------- */
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); margin: 56px auto 0; max-width: 860px;
+  list-style: none; padding: 0; }
+.fact { padding: 28px 20px; text-align: center; }
+.fact + .fact { border-left: 1px solid var(--line); }
+.fact b { display: block; font-size: clamp(38px, 5vw, 56px); font-weight: 300; color: var(--accent-text); line-height: 1; font-variant-numeric: tabular-nums; }
+.fact span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted); letter-spacing: .04em; }
+@media (max-width: 760px) { .facts { grid-template-columns: 1fr 1fr; } .fact:nth-child(3) { border-left: 0; } .fact:nth-child(n+3) { border-top: 1px solid var(--line); } }
+
+/* ---------- Sections ---------- */
+main section { padding-block: clamp(48px, 5.5vw, 80px); }
+.eyebrow { display: block; text-align: center; font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 14px; }
+main section h2 { text-align: center; font-size: clamp(30px, 3.6vw, 40px); letter-spacing: .03em; margin-bottom: clamp(28px, 3.5vw, 44px); }
+.soft { background: var(--bg-soft); }
+
+/* Profile: the opening paragraph, larger */
+.lead { font-size: clamp(21px, 2.4vw, 27px); line-height: 1.5; color: var(--text-strong); }
+
+/* ---------- Timeline ---------- */
+.tl-tools { display: flex; justify-content: flex-end; margin-bottom: 18px; }
+.linkbtn { background: none; border: 0; padding: 6px 0; cursor: pointer; font: 400 13px "Jost", sans-serif;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); border-bottom: 1px solid currentColor; }
+.tl { list-style: none; margin: 0; padding: 0; position: relative; }
+.tl::before { content: ""; position: absolute; top: 12px; bottom: 12px; left: calc(8.5rem + 15px); width: 1px; background: var(--line); }
+.tl-item { display: grid; grid-template-columns: 8.5rem 32px 1fr; column-gap: 20px; padding-bottom: 8px; }
+.tl-when { text-align: right; padding-top: 22px; font-size: 15px; color: var(--muted); line-height: 1.35; }
+.tl-when b { display: block; font-weight: 400; font-size: 20px; color: var(--text-strong); }
+.tl-dot { position: relative; }
+.tl-dot::before { content: ""; position: absolute; top: 28px; left: 9px; width: 13px; height: 13px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--accent); transition: background .3s, transform .3s var(--ease); }
+.tl-item.is-open .tl-dot::before, .tl-item:hover .tl-dot::before { background: var(--accent); transform: scale(1.25); }
+.tl-card { border-bottom: 1px solid var(--line); padding: 16px 0 18px; }
+.tl-card h3 { font-size: 22px; }
+.tl-toggle { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 1fr 36px; align-items: start; gap: 12px;
+  width: 100%; cursor: pointer; padding: 6px 0; }
+.tl-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.tl-role { display: block; transition: color .2s; }
+.tl-org { display: block; font-size: 17px; color: var(--accent-text); margin-top: 4px; }
+.tl-toggle:hover .tl-role { color: var(--accent-text); }
+.tl-icon { width: 36px; height: 36px; border: 1px solid var(--accent); border-radius: 50%; position: relative; margin-top: 2px;
+  transition: transform .4s var(--ease), background .3s; }
+.tl-icon::before, .tl-icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1px;
+  background: var(--text-strong); transform: translate(-50%, -50%); }
+.tl-icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform .4s var(--ease); }
+.tl-toggle:hover .tl-icon { background: var(--bg-soft); }
+.is-open .tl-icon { transform: rotate(180deg); }
+.is-open .tl-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+.tl-sum { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; }
+.chips li { font-size: 13px; letter-spacing: .04em; padding: 3px 11px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); }
+/* The expand animation: a grid row going from 0fr to 1fr animates to the content's real height.
+   Only with JavaScript (.js on <html>) are jobs folded at all: without it every job stays open. */
+.tl-panel { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .45s var(--ease), visibility 0s; }
+.tl-panel > div { overflow: hidden; }
+.js .tl-item:not(.is-open) .tl-panel { grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .45s var(--ease), visibility 0s .45s; }
+.tl-panel .where { margin: 16px 0 10px; font-size: 15px; color: var(--muted); }
+.tl-panel ul { margin: 0; padding-left: 1.1em; }
+.tl-panel > div > ul:first-child { margin-top: 16px; }   /* a job without a date line */
+.tl-panel li { margin-bottom: .55em; }
+.tl-panel li::marker { color: var(--accent); }
+.tl-panel strong { font-weight: 500; color: var(--text-strong); }
+.tl-item.earlier .tl-role { font-size: 20px; }
+/* Without JavaScript the title is not a working toggle, so it doesn't look like one */
+html:not(.js) .tl-icon { display: none; }
+html:not(.js) .tl-toggle { cursor: auto; }
+@media (max-width: 700px) {
+  .tl::before { left: 15px; }
+  .tl-item { grid-template-columns: 32px 1fr; column-gap: 12px; }
+  .tl-when { grid-column: 2; grid-row: 1; text-align: left; padding-top: 0; }
+  .tl-when b { display: inline; font-size: 16px; }
+  .tl-dot { grid-column: 1; grid-row: 1 / span 2; }
+  .tl-dot::before { top: 4px; }
+  .tl-card { grid-column: 2; padding-top: 4px; }
 }
 
-p { margin: 0; }
-p + p { margin-top: 1em; }
+/* ---------- Certifications ---------- */
+/* Badge rules (Guidewire brand guide): 94 × 106 px, never smaller, no shadow, filter or effect on the mark. */
+.certs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.cert-card { background: var(--bg); padding: 28px; border: 1px solid var(--line); transition: border-color .3s; }
+.cert-card:hover { border-color: var(--accent); }
+.cert-card.wide { grid-column: 1 / -1; }
+.cert-card h3 { font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 20px; font-weight: 400; }
+.badges { list-style: none; display: flex; flex-wrap: wrap; gap: 28px; margin: 0; padding: 0; }
+.badge { width: 130px; text-align: center; font-size: 15px; line-height: 1.35; }
+.badge img { display: block; width: 94px; height: 106px; margin: 0 auto 10px; }
+.badge small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+.cert-note { text-align: center; margin-top: 40px; color: var(--muted); }
+.center { text-align: center; }
+.check-hint { color: var(--muted); font-size: 14px; margin-top: 12px; }
+@media (max-width: 760px) { .certs { grid-template-columns: 1fr; } }
 
-a {
-  color: var(--accent);
-  text-underline-offset: 3px;
+/* ---------- Skills (cards with line icons) ---------- */
+.skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 40px; }
+.skill { text-align: center; }
+.skill svg { width: 84px; height: 72px; margin-bottom: 18px; overflow: visible; }
+.skill svg .ln { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.skill svg .dot { fill: var(--sage); transition: transform .6s var(--ease); transform-box: fill-box; transform-origin: center; }
+.skill:hover svg .dot { transform: translate(4px, -4px) scale(1.15); }
+.skill h3 { font-size: 21px; margin-bottom: 12px; }
+.skill p { color: var(--muted); font-size: 16px; }
+@media (max-width: 900px) { .skills { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .skills { grid-template-columns: 1fr; } }
+
+/* ---------- Languages / education / interests ---------- */
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+.trio h3 { font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 20px; font-weight: 400; }
+.levels { list-style: none; margin: 0; padding: 0; }
+.level { display: grid; grid-template-columns: 1fr auto; row-gap: 6px; margin-bottom: 18px; }
+.level .lvl { color: var(--muted); font-size: 15px; }
+.meter { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.meter i { height: 4px; background: var(--line); position: relative; overflow: hidden; }
+.meter i.f::after { content: ""; position: absolute; inset: 0; background: var(--accent); transform: scaleX(1); transform-origin: left;
+  transition: transform .5s var(--ease); }
+.js .meter:not(.in) i.f::after { transform: scaleX(0); }
+.meter i:nth-child(2)::after { transition-delay: .08s !important; } .meter i:nth-child(3)::after { transition-delay: .16s !important; }
+.meter i:nth-child(4)::after { transition-delay: .24s !important; } .meter i:nth-child(5)::after { transition-delay: .32s !important; }
+.meter i:nth-child(6)::after { transition-delay: .4s !important; }
+.edu { margin: 0; }
+.edu dt { color: var(--text-strong); font-weight: 400; } .edu dd { margin: 2px 0 16px; color: var(--muted); font-size: 15px; }
+.lego { display: flex; gap: 16px; align-items: center; }
+.lego svg { width: 64px; flex: none; }
+.lego svg rect { fill: none; stroke: var(--accent); stroke-width: 2; }
+.lego svg circle { fill: var(--sage); }
+.lego p { margin: 0; }
+@media (max-width: 860px) { .trio { grid-template-columns: 1fr; } }
+
+/* ---------- Footer ---------- */
+footer { background: var(--band); color: var(--band-text); text-align: center; padding: 48px 20px; font-size: 14px; }
+footer .icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 18px; }
+footer .icons a { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(246, 246, 238, .35); border-radius: 50%;
+  transition: background .3s, border-color .3s; }
+footer .icons a:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+footer svg { width: 18px; height: 18px; fill: currentColor; }
+footer p { margin: 4px 0; opacity: .85; }
+
+/* ---------- 404 ---------- */
+.not-found { min-height: 100vh; display: grid; align-content: center; }
+.not-found .meta { margin-top: 14px; }
+
+/* ---------- Reveal on scroll ---------- */
+.js .rv { opacity: 0; transform: translateY(16px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.js .rv.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; }
+  html { scroll-behavior: auto; }
+  .js .rv { opacity: 1; transform: none; }
 }
 
-/* Visible keyboard focus. :focus-visible only shows it for keyboard users, not mouse clicks. */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-ul { margin: .5rem 0 0; padding-left: 1.1rem; }
-li { margin: .3rem 0; }
-li::marker { color: var(--muted); }
-
-
-/* ---------- 4. Layout: one centred column ----------
-   header, main and footer share the same width and side padding.
-   min() keeps the column at 760px on desktop and full width on phones.     */
-
-body > header,
-body > main,
-body > footer {
-  width: min(100%, var(--measure));
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
-body > header { padding-top: clamp(16px, 4vw, 40px); }
-body > footer { padding-bottom: 48px; }
-
-
-/* ---------- 5. Hero ---------- */
-
-/* Language switcher (EN · DE), top right of the header */
-.lang {
-  display: flex;
-  justify-content: flex-end;
-  gap: .9rem;
-  margin-bottom: clamp(16px, 5vw, 48px);
-  font-size: .85rem;
-  letter-spacing: .06em;
-}
-.lang a { color: var(--muted); text-decoration: none; }
-.lang a:hover { color: var(--text); text-decoration: underline; }
-.lang a[aria-current="page"] {          /* the language you are reading now */
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.hero h1 {
-  font-size: clamp(2.2rem, 7vw, 3.2rem);   /* fluid: grows with screen width, within limits */
-  letter-spacing: -.01em;
-}
-
-.role  { margin-top: .4rem; font-size: 1.15rem; color: var(--accent); }
-.meta  { margin-top: .3rem; color: var(--muted); }
-.pitch { margin-top: 1.4rem; max-width: 60ch; }   /* ch = width of "0": ~60 characters per line reads best */
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 1.6rem;
-}
-
-.btn {
-  display: inline-block;
-  padding: .55rem 1.1rem;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  font: inherit;
-  font-size: .95rem;
-  text-decoration: none;
-  background: transparent;
-  cursor: pointer;
-}
-.btn.primary { background: var(--accent); color: var(--bg); }
-.btn:hover   { text-decoration: underline; }
-
-
-
-/* ---------- 5b. AI portrait (a wink, not the centre of the page) ----------
-   Phones: small photo + caption in a row above the name.
-   Wider screens: the hero becomes a 2-column grid, photo on the right.       */
-
-.portrait {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 0 0 1.4rem;
-}
-.portrait img {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;          /* round crop of a square image */
-  flex: none;                  /* never squeeze the photo */
-}
-.portrait figcaption {
-  max-width: 16rem;
-  font-family: var(--font-head);
-  font-style: italic;
-  font-size: .9rem;
-  line-height: 1.4;
-  color: var(--muted);
-}
-.portrait figcaption span {
-  font-family: var(--font-body);
-  font-style: normal;
-  font-size: .75rem;
-  letter-spacing: .04em;
-}
-
-@media (min-width: 640px) {
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 2.5rem;
-  }
-  .hero > * { grid-column: 1; }          /* everything in the text column… */
-  .hero > .lang { grid-column: 1 / -1; } /* …except the switcher (full width, on top) */
-  .portrait {                             /* …and the photo */
-    grid-column: 2;
-    grid-row: 2 / span 4;
-    flex-direction: column;
-    align-items: center;
-    margin: .4rem 0 0;
-    text-align: center;
-  }
-  .portrait img { width: 112px; height: 112px; }
-  .portrait figcaption { max-width: 9.5rem; }
-}
-
-
-/* ---------- 6. Sections ---------- */
-
-main section {
-  margin-top: 3.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);   /* thin divider instead of boxes */
-}
-
-h2 {
-  margin-bottom: 1.4rem;
-  font-size: 1.5rem;
-}
-
-h3 { font-size: 1.1rem; }
-
-/* Two small sections side by side on wide screens, stacked on phones.
-   auto-fit + minmax: "as many 240px+ columns as fit". No media query needed. */
-.cols {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  column-gap: 3rem;
-}
-
-
-/* ---------- 7. Experience ---------- */
-
-.job + .job { margin-top: 2.2rem; }
-
-.where   { margin-top: .15rem; font-size: .92rem; color: var(--muted); }
-.steps   { margin-top: .1rem;  font-size: .92rem; color: var(--muted); }
-.project { margin-top: .5rem;  font-size: .95rem; }
-
-
-/* ---------- 8. Certifications ----------
-   Guidewire rules: badge ≥ 94 px wide, ratio locked, max 4 per row,
-   nothing on or next to the badge, caption below.                          */
-
-.cert-group + .cert-group { margin-top: 2rem; }
-.cert-group h3 { margin-bottom: 1rem; font-size: 1rem; }
-.cert-group.minor h3 { font-weight: 400; color: var(--muted); }   /* lowest value: quieter heading */
-
-.badges {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 150px);   /* 4 × 150 + gaps fits 760px: never more than 4 */
-  gap: 28px 24px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.badge { margin: 0; text-align: center; }
-
-.badge img {
-  display: block;
-  width: 94px;        /* official minimum display size */
-  height: auto;       /* keeps the aspect ratio locked */
-  margin: 0 auto;
-}
-
-.badge p {
-  margin-top: .7rem;
-  font-size: .82rem;
-  line-height: 1.4;
-}
-
-.releases { color: var(--muted); }
-
-.note {
-  margin-top: 2rem;
-  max-width: 62ch;
-  font-size: .9rem;
-  color: var(--muted);
-}
-
-
-/* ---------- 9. Description lists (skills, languages, education) ---------- */
-
-dl { margin: 0; }
-dt { font-weight: 600; }
-dd { margin: .1rem 0 0; color: var(--muted); }
-dd + dt { margin-top: .9rem; }
-
-/* Skills: label on the left, details on the right, on wide screens */
-@media (min-width: 640px) {
-  .skills {
-    display: grid;
-    grid-template-columns: 13rem 1fr;
-    gap: .9rem 1.5rem;
-  }
-  .skills dd, .skills dd + dt { margin: 0; }
-}
-
-
-/* ---------- 10. Footer ---------- */
-
-footer {
-  margin-top: 4rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-  font-size: .8rem;
-  color: var(--muted);
-}
-footer p + p { margin-top: .3rem; }
-
-
-/* ---------- 11. Print: "Save as PDF" gives the downloadable CV ----------
-   Same HTML, different rules: A4, light colours whatever the screen theme,
-   smaller type, no buttons, and no job split across two pages.           */
-
+/* ==========================================================================
+   Print ("Save as PDF"): a plain A4 CV. Every job open, nothing that only makes
+   sense on a screen (menu, buttons, photo, animations, icons, tags, key facts).
+   ========================================================================== */
 @media print {
   @page { size: A4; margin: 14mm 16mm; }
 
   :root {                                   /* always light on paper, even if the screen is dark */
-    --bg: #FFFFFF;
-    --text: #1A1714;
-    --muted: #555049;
-    --line: #CFC6B8;
-    --accent: #4A5238;
+    --bg: #FFFFFF; --bg-soft: #FFFFFF; --text: #2E4942; --text-strong: #1F342E; --muted: #5B6F69;
+    --accent: #B87E58; --accent-text: #8E5835; --line: #DCDED1;
     color-scheme: light;
   }
 
-  html { font-size: 9.5pt; }               /* rem now means 9.5pt, so every rem-based size shrinks with it */
-  body { line-height: 1.45; }
+  html { font-size: 9.5pt; }               /* rem = 9.5pt from here on */
+  body { font-size: 1rem; font-weight: 400; line-height: 1.45; }
 
-  body > header,
-  body > main,
-  body > footer { width: auto; padding: 0; }   /* the page margins do the job */
+  .progress, .bar, .menu, .facts, .portrait, .js-print, .tl-tools, .tl-dot, .tl-icon, .chips,
+  .skill svg, .meter, .lego svg, footer .icons, .eyebrow { display: none !important; }
 
-  body > header { padding-top: 0; }
-  .hero h1 { font-size: 24pt; }
-  .role    { font-size: 12pt; }
-  .pitch   { margin-top: .6rem; max-width: none; }
+  /* Whatever JavaScript folded or faded is open and visible on paper (Ctrl+P works too) */
+  .js .rv { opacity: 1 !important; transform: none !important; }
+  .js .tl-item .tl-panel { grid-template-rows: 1fr !important; visibility: visible !important; }
+  /* overflow: hidden (needed for the fold animation) makes Chrome keep a box on one page; a long job
+     would jump to the next page whole and leave a gap. On paper nothing folds, so let it split. */
+  .tl-panel > div { overflow: visible; }
 
-  /* Buttons make no sense on paper: hide the print button, turn LinkedIn into plain text + URL */
-  #print-btn, .portrait, .lang { display: none; }   /* the joke doesn't work on paper */
-  .hero { display: block; }
-  .actions { margin-top: .5rem; }
-  .btn, .btn.primary { padding: 0; border: 0; background: none; color: var(--text); font-size: inherit; }
+  .wrap, .wrap.mid, .narrow { max-width: none; padding-inline: 0; }
+  main section, .hero { padding-block: 0; background: none; }
+  main section { margin-top: 1.1rem; }
+
+  /* Hero: name, role, place, pitch; LinkedIn as text with its address (a button can't be clicked on paper) */
+  .intro { display: block; max-width: none; }
+  .hero h1 { font-size: 24pt; font-weight: 500; }
+  .hero .role { font-size: 12pt; margin: .2rem 0 0; }
+  .hero .meta { font-size: 8.5pt; margin: .1rem 0 0; }
+  .hero .pitch { font-size: 1rem; max-width: none; margin: .5rem 0 0; }
+  .btn-row { margin-top: .4rem; }
+  .btn { display: inline; min-width: 0; padding: 0; border: 0; background: none; color: var(--text);
+    font: inherit; letter-spacing: 0; text-transform: none; }
+  .btn svg { display: none; }
   .btn[data-print]::after { content: ": " attr(data-print); color: var(--muted); }   /* the address comes from site.ts */
+  a { text-decoration: none; }             /* links stay clickable in the PDF, but look like text */
 
-  main section { margin-top: 1.1rem; padding-top: .6rem; }
-  h2 { margin-bottom: .5rem; font-size: 13pt; }
-  h3 { font-size: 10.5pt; }
-  ul { margin-top: .2rem; }
-  li { margin: .1rem 0; }
-  .job + .job { margin-top: .8rem; }
+  /* The profile heading is screen-reader-only on screen; on paper every section gets a visible heading */
+  main section h2, main section h2.sr { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal;
+    text-align: left; font-size: 13pt; font-weight: 500; letter-spacing: 0; margin-bottom: .5rem;
+    padding-bottom: .15rem; border-bottom: 1px solid var(--line); }
+  .lead { font-size: 1rem; color: var(--text); }
+  #profile p { margin-bottom: .4rem; }
+
+  /* Timeline → a date column and the job */
+  .tl::before { display: none; }
+  .tl-item { grid-template-columns: 7.4rem 1fr; column-gap: .8rem; padding-bottom: 0; }
+  .tl-item + .tl-item { margin-top: .7rem; }
+  .tl-when { text-align: left; padding-top: .1rem; font-size: 8.5pt; white-space: nowrap; }
+  .tl-when b { display: inline; font-size: 1rem; font-weight: 500; }
+  .tl-card { border: 0; padding: 0; }
+  .tl-card h3, .tl-item.earlier .tl-role { font-size: 10.5pt; }
+  .tl-toggle { display: block; padding: 0; }
+  .tl-role { display: inline; font-weight: 500; }
+  .tl-org { display: inline; font-size: 1rem; margin: 0; }
+  .tl-org::before { content: " · "; color: var(--muted); }
+  .tl-sum { font-size: 1rem; margin: .1rem 0 0; }
+  .tl-panel .where { font-size: 8.5pt; margin: .1rem 0 .2rem; }
+  .tl-panel > div > ul:first-child { margin-top: .2rem; }
+  .tl-panel li { margin-bottom: .1rem; }
+
+  /* Certifications: two columns as on screen; badges stay 94 × 106 (never smaller) */
+  /* Explicit columns: an A4 page is only ~670 CSS px wide, so the phone-size rules would apply otherwise */
+  .certs { grid-template-columns: 1fr 1fr; gap: .6rem 1.5rem; }
+  .cert-card { border: 0; padding: 0; background: none; }
+  .cert-card h3 { font-size: 8.5pt; margin-bottom: .3rem; }
+  .badges { gap: 8px 22px; }
+  .badge { font-size: 8.5pt; line-height: 1.3; }
+  .badge img { margin-bottom: 4px; }
+  .badge small { font-size: 7.5pt; margin-top: 1px; }
+  .cert-note, .center, .check-hint { text-align: left; font-size: 8.5pt; margin: .5rem 0 0; }
+  .center .btn { font-weight: 500; }
+
+  /* Skills, languages, education, interests: compact columns */
+  .skills { grid-template-columns: 1fr 1fr; gap: .5rem 1.5rem; }
+  .skill { text-align: left; }
+  .skill h3 { font-size: 1rem; font-weight: 500; margin-bottom: .1rem; }
+  .skill p { font-size: 1rem; margin: 0; }
+  .trio { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .trio h3 { font-size: 8.5pt; margin-bottom: .3rem; }
+  .level { margin-bottom: .1rem; column-gap: .5rem; }
+  .level .lvl, .edu dd { font-size: 1rem; }
+  .edu dd { margin-bottom: .3rem; }
+
+  footer { background: none; color: var(--muted); text-align: left; padding: .5rem 0 0; margin-top: 1.2rem;
+    border-top: 1px solid var(--line); font-size: 7.5pt; }
+  footer p { opacity: 1; margin: 0; }
 
   /* Keep things together where a split would look broken */
-  /* A long job may continue on the next page, but its title + dates stay with the first bullet */
-  li, .cert-group, .badge, .cols > section, .skills dt, .skills dd { break-inside: avoid; }
-  h2, h3, .where, .steps, .project { break-after: avoid; }
-
-  .cert-group + .cert-group { margin-top: .8rem; }
-  .cert-group h3 { margin-bottom: .4rem; }
-  .badges { gap: 10px 24px; }              /* badges stay 94px: never smaller (Guidewire rule) */
-  .badge p { margin-top: .3rem; font-size: 8pt; }
-  .note { margin-top: .8rem; font-size: 8.5pt; }
-
-  footer { margin-top: 1.2rem; padding-top: .5rem; font-size: 7.5pt; }
-
-  a { color: inherit; text-decoration: none; }   /* links stay clickable in the PDF, but look like text */
+  /* (.tl-panel li, not li: a whole job is an <li> too, and it may continue on the next page) */
+  .tl-panel li, .cert-card, .badge, .skill, .trio > div, .edu dt, .edu dd { break-inside: avoid; }
+  h2, h3, .tl-sum, .where { break-after: avoid; }
 }

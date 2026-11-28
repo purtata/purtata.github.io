@@ -16,6 +16,8 @@ const { lang, title } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{title}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  {/* Start loading the font right away, not only after the CSS has been read. crossorigin is required for fonts. */}
+  <link rel="preload" href="/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <slot name="head" />
 </head>
 <body>
