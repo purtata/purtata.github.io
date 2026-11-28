@@ -119,7 +119,9 @@ themeButtons.forEach((b) => {
   b.hidden = false;
   b.addEventListener('click', () => setTheme(!isDark()));
 });
-deviceDark.addEventListener('change', syncThemeButtons);   // the device switched (e.g. at sunset) and we follow it
+// The device switched (e.g. at sunset): without a saved choice the page follows it, so update the buttons.
+// A saved choice stays: the visitor picked it on purpose.
+deviceDark.addEventListener('change', syncThemeButtons);
 syncThemeButtons();
 
 // ---------- Save as PDF: the print stylesheet opens every job ----------

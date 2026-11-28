@@ -66,3 +66,13 @@ for (const how of ['dark device', 'switched to dark'] as const) {
     expect(await page.evaluate(() => getComputedStyle(document.body).color)).toBe('rgb(46, 73, 66)');   // #2E4942
   });
 }
+
+test('the device switches while the page is open: the page and the button follow it', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  const button = page.locator('.bar .js-theme');
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(button).toHaveAttribute('aria-pressed', 'true');   // retries: the change event comes a moment later
+  expect(await bodyBg(page)).toBe(DARK_BG);
+});

@@ -30,7 +30,7 @@
   --accent: light-dark(#B87E58, #C98D64);      /* terracotta: lines, dots, icons (decoration only, too light for small text) */
   --accent-text: light-dark(#8E5835, #DDA680); /* terracotta dark enough for small text */
   --sage: light-dark(#E2E4D2, #2B423B);        /* decorative dots */
-  --btn-bg: light-dark(#8E5835, #C98D64);      /* button fill: the dark terracotta, so white text stays readable */
+  --btn-bg: light-dark(#8E5835, #C98D64);      /* button fill: dark terracotta + white text; in dark mode light terracotta + dark text */
   --btn-text: light-dark(#FFFFFF, #14231F);
   --line: light-dark(#DCDED1, #2B3F39);
   --band: light-dark(#2E4942, #0E1916);        /* footer */
@@ -41,6 +41,14 @@
 }
 :root[data-theme="light"] { color-scheme: light; }
 :root[data-theme="dark"] { color-scheme: dark; }
+/* Browsers older than light-dark() (Safari < 17.5, e.g. iPhones stuck on iOS 16) would drop every colour above.
+   They get the light theme instead, and no switch, since it couldn't change anything there. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root { --bg: #FFFFFF; --bg-soft: #F6F6EE; --text: #2E4942; --text-strong: #1F342E; --muted: #5B6F69;
+    --accent: #B87E58; --accent-text: #8E5835; --sage: #E2E4D2; --btn-bg: #8E5835; --btn-text: #FFFFFF;
+    --line: #DCDED1; --band: #2E4942; --band-text: #F6F6EE; color-scheme: light; }
+  .js-theme { display: none !important; }
+}
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -90,9 +98,9 @@ a:hover { color: var(--accent-text); }
 .theme { width: 44px; height: 44px; border: 0; padding: 0; background: none; cursor: pointer; color: var(--text-strong);
   display: grid; place-items: center; }
 .theme svg { width: 22px; height: 22px; }
-.js-theme svg path { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; transition: fill .2s; }
-.js-theme[aria-pressed="true"] svg path { fill: currentColor; }
-@media (max-width: 480px) { .bar .theme { display: none; } }   /* no room next to the name: it is in the menu */
+.moon path { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; transition: fill .2s; }
+[aria-pressed="true"] > .moon path { fill: currentColor; }
+@media (max-width: 560px) { .bar .theme { display: none; } }   /* no room next to the name: it is in the menu */
 .menu-open .burger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .menu-open .burger span:nth-child(2) { opacity: 0; }
 .menu-open .burger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
