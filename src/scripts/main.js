@@ -96,6 +96,32 @@ const current = new IntersectionObserver((entries) => entries.forEach((e) => {
 }), { rootMargin: '-45% 0px -50% 0px' });   // a thin band across the middle of the screen
 document.querySelectorAll('main section[id]').forEach((s) => current.observe(s));
 
+// ---------- Light / dark switch ----------
+// Default: follow the device. A click switches to the other theme and remembers it on this device
+// (localStorage, never sent anywhere). Switching back to what the device uses forgets it again,
+// so from then on the page follows the device. The <head> script applies a saved choice before drawing.
+const root = document.documentElement;
+const deviceDark = matchMedia('(prefers-color-scheme: dark)');
+const themeButtons = document.querySelectorAll('.js-theme');
+const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : deviceDark.matches);
+const syncThemeButtons = () => themeButtons.forEach((b) => b.setAttribute('aria-pressed', String(isDark())));
+
+function setTheme(dark) {
+  if (dark === deviceDark.matches) delete root.dataset.theme;
+  else root.dataset.theme = dark ? 'dark' : 'light';
+  try {
+    if (root.dataset.theme) localStorage.setItem('theme', root.dataset.theme);
+    else localStorage.removeItem('theme');
+  } catch { /* storage blocked: the switch still works until the page is closed */ }
+  syncThemeButtons();
+}
+themeButtons.forEach((b) => {
+  b.hidden = false;
+  b.addEventListener('click', () => setTheme(!isDark()));
+});
+deviceDark.addEventListener('change', syncThemeButtons);   // the device switched (e.g. at sunset) and we follow it
+syncThemeButtons();
+
 // ---------- Save as PDF: the print stylesheet opens every job ----------
 document.querySelectorAll('.js-print').forEach((button) => {
   button.hidden = false;

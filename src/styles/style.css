@@ -16,33 +16,31 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
     U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* ---------- Tokens ---------- */
+/* ---------- Tokens ----------
+   Every colour is light-dark(<light>, <dark>): the browser picks one by the element's color-scheme.
+   color-scheme "light dark" = follow the device. The switch in the bar sets <html data-theme="light|dark">,
+   which pins one of the two (scrollbars and form controls follow it too). */
 :root {
-  --bg: #FFFFFF;
-  --bg-soft: #F6F6EE;     /* warm off-white: header, hero, alternate sections */
-  --text: #2E4942;        /* forest green: all text */
-  --text-strong: #1F342E;
-  --muted: #5B6F69;
-  --accent: #B87E58;      /* terracotta: lines, dots, icons (decoration only, too light for small text) */
-  --accent-text: #8E5835; /* terracotta dark enough for small text */
-  --sage: #E2E4D2;        /* decorative dots */
-  --btn-bg: #8E5835;      /* button fill: the dark terracotta, so white text stays readable */
-  --btn-text: #FFFFFF;
-  --line: #DCDED1;
-  --band: #2E4942;        /* footer */
-  --band-text: #F6F6EE;
+  color-scheme: light dark;
+  --bg: light-dark(#FFFFFF, #14231F);
+  --bg-soft: light-dark(#F6F6EE, #1A2C27);     /* warm off-white: header, hero, alternate sections */
+  --text: light-dark(#2E4942, #E6E4D8);        /* forest green: all text */
+  --text-strong: light-dark(#1F342E, #F4F2E9);
+  --muted: light-dark(#5B6F69, #A7B4AD);
+  --accent: light-dark(#B87E58, #C98D64);      /* terracotta: lines, dots, icons (decoration only, too light for small text) */
+  --accent-text: light-dark(#8E5835, #DDA680); /* terracotta dark enough for small text */
+  --sage: light-dark(#E2E4D2, #2B423B);        /* decorative dots */
+  --btn-bg: light-dark(#8E5835, #C98D64);      /* button fill: the dark terracotta, so white text stays readable */
+  --btn-text: light-dark(#FFFFFF, #14231F);
+  --line: light-dark(#DCDED1, #2B3F39);
+  --band: light-dark(#2E4942, #0E1916);        /* footer */
+  --band-text: light-dark(#F6F6EE, #E6E4D8);
   --ease: cubic-bezier(.2, .7, .2, 1);
   --wrap: 1120px;
   --text-col: 720px;
-  color-scheme: light dark;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14231F; --bg-soft: #1A2C27; --text: #E6E4D8; --text-strong: #F4F2E9;
-    --muted: #A7B4AD; --accent: #C98D64; --accent-text: #DDA680; --sage: #2B423B;
-    --line: #2B3F39; --band: #0E1916; --band-text: #E6E4D8; --btn-bg: #C98D64; --btn-text: #14231F;
-  }
-}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -88,6 +86,13 @@ a:hover { color: var(--accent-text); }
 .burger span { position: absolute; left: 6px; right: 6px; height: 2px; background: currentColor;
   transition: transform .35s var(--ease), opacity .2s; }
 .burger span:nth-child(1) { top: 13px; } .burger span:nth-child(2) { top: 21px; } .burger span:nth-child(3) { top: 29px; }
+/* Light/dark switch: a moon, filled while dark mode is on (aria-pressed="true") */
+.theme { width: 44px; height: 44px; border: 0; padding: 0; background: none; cursor: pointer; color: var(--text-strong);
+  display: grid; place-items: center; }
+.theme svg { width: 22px; height: 22px; }
+.js-theme svg path { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; transition: fill .2s; }
+.js-theme[aria-pressed="true"] svg path { fill: currentColor; }
+@media (max-width: 480px) { .bar .theme { display: none; } }   /* no room next to the name: it is in the menu */
 .menu-open .burger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .menu-open .burger span:nth-child(2) { opacity: 0; }
 .menu-open .burger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -291,10 +296,9 @@ footer p { margin: 4px 0; opacity: .85; }
 @media print {
   @page { size: A4; margin: 14mm 16mm; }
 
-  :root {                                   /* always light on paper, even if the screen is dark */
-    --bg: #FFFFFF; --bg-soft: #FFFFFF; --text: #2E4942; --text-strong: #1F342E; --muted: #5B6F69;
-    --accent: #B87E58; --accent-text: #8E5835; --line: #DCDED1;
+  :root, :root[data-theme] {               /* always light on paper, also when the screen is dark or switched to dark */
     color-scheme: light;
+    --bg-soft: #FFFFFF;
   }
 
   html { font-size: 9.5pt; }               /* rem = 9.5pt from here on */

@@ -1,6 +1,6 @@
 // Accessibility: axe-core (the engine inside Lighthouse's accessibility audit) must find
 // 0 violations on every page, in light and dark mode, on a desktop and a phone screen,
-// with the menu open, and with JavaScript switched off.
+// with the menu open, switched to the other theme, and with JavaScript switched off.
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { PAGES } from './pages';
@@ -58,6 +58,18 @@ for (const colorScheme of SCHEMES) {
         await page.goto(path);
         await page.locator('.burger').click();
         await expect(page.locator('#menu nav a').first()).toBeFocused();
+        await expectNoViolations(page);
+      });
+    }
+
+    // The switch picks the other theme than the device's. Same colours as above, but this proves that
+    // nothing still follows the device (a leftover prefers-color-scheme rule would mix the two themes).
+    for (const { name, path } of CV_PAGES) {
+      test(`axe: ${name}, switched to ${colorScheme === 'light' ? 'dark' : 'light'}`, async ({ page }) => {
+        await page.goto(path);
+        await page.locator('.bar .js-theme').click();
+        await expect(page.locator('html')).toHaveAttribute('data-theme', colorScheme === 'light' ? 'dark' : 'light');
+        await expandAll(page);
         await expectNoViolations(page);
       });
     }

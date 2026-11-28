@@ -20,6 +20,7 @@ export const en: Content = {
     collapseAll: 'Collapse all',
     now: 'now',
     print: 'Save as PDF',
+    darkMode: 'Dark mode',
   },
 
   portrait: {
