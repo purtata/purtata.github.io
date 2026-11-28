@@ -21,7 +21,10 @@ const menuIsOpen = () => document.body.classList.contains('menu-open');
 
 burger.hidden = false;
 burger.addEventListener('click', () => setMenu(!menuIsOpen()));
-menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+// Any link closes the menu: those in it, and those in the bar above it (the name jumps to the top)
+[menu, document.querySelector('.bar')].forEach((area) => area.addEventListener('click', (e) => {
+  if (e.target.closest('a') && menuIsOpen()) setMenu(false);
+}));
 addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && menuIsOpen()) { setMenu(false); burger.focus(); }
 });

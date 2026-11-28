@@ -345,7 +345,7 @@ footer p { margin: 4px 0; opacity: .85; }
   .tl-toggle { display: block; padding: 0; }
   .tl-role { display: inline; font-weight: 500; }
   .tl-org { display: inline; font-size: 1rem; margin: 0; }
-  .tl-org::before { content: " · "; color: var(--muted); }
+  .tl-org::before { content: "· "; color: var(--muted); }   /* after the space in the HTML */
   .tl-sum { font-size: 1rem; margin: .1rem 0 0; }
   .tl-panel .where { font-size: 8.5pt; margin: .1rem 0 .2rem; }
   .tl-panel > div > ul:first-child { margin-top: .2rem; }

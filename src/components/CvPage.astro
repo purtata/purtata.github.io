@@ -30,6 +30,7 @@ function when(job: Job) {
   if (typeof job.to === 'string') return { year, rest: `– ${t.ui.now}` };
   const toYear = job.to.date.slice(0, 4);
   if (toYear !== year) return { year, rest: `– ${toYear}` };
+  if (job.from.date.length < 7 || job.to.date.length < 7) return { year, rest: '' };   // "2016" – "2016": no months to show
   const month = (d: string) => new Date(`${d}-01T12:00:00Z`).toLocaleDateString(t.lang, { month: 'short', timeZone: 'UTC' });
   return { year, rest: `${month(job.from.date)} – ${month(job.to.date)}` };
 }
@@ -44,6 +45,11 @@ const SKILL_ICONS = [
   '<circle class="dot" cx="62" cy="20" r="9"/><circle class="ln" cx="24" cy="12" r="6"/><circle class="ln" cx="24" cy="60" r="6"/><circle class="ln" cx="58" cy="26" r="6"/><path class="ln" d="M24 18v36M58 32c0 14-34 8-34 22"/>',
   '<circle class="dot" cx="22" cy="18" r="9"/><path class="ln" d="M14 30h40v24H32l-10 8v-8h-8z"/><path class="ln" d="M38 22V12h36v24h-8v8l-10-8"/>',
 ];
+
+// Icons are matched to skills by position, so the counts must agree: fail the build rather than show a blank card.
+if (t.skills.length !== SKILL_ICONS.length) {
+  throw new Error(`${t.lang}.ts has ${t.skills.length} skills but CvPage.astro has ${SKILL_ICONS.length} skill icons`);
+}
 
 const LINKEDIN_ICON = 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06C21.1 9.04 22 11.5 22 14.7V21h-4v-5.6c0-1.34-.03-3.06-1.86-3.06-1.87 0-2.15 1.46-2.15 2.96V21h-4z';
 ---
@@ -137,7 +143,8 @@ const LINKEDIN_ICON = 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21
         </div>
 
         <ul class="facts rv" aria-label={t.ui.facts}>
-          {facts.map((f) => <li class="fact"><b data-count={f.n}>{f.n}</b><span>{f.text}</span></li>)}
+          {/* The visible number counts up from 0, so screen readers get the real number from the hidden copy */}
+          {facts.map((f) => <li class="fact"><b data-count={f.n} aria-hidden="true">{f.n}</b><span class="sr">{f.n}</span>{' '}<span>{f.text}</span></li>)}
         </ul>
       </div>
     </section>
@@ -172,7 +179,7 @@ const LINKEDIN_ICON = 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21
                 <div class="tl-card">
                   <h3>
                     <button class="tl-toggle" type="button" aria-expanded="true" aria-controls={id}>
-                      <span><span class="tl-role">{job.role}</span><span class="tl-org">{job.org}</span></span>
+                      <span><span class="tl-role">{job.role}</span>{' '}<span class="tl-org">{job.org}</span></span>
                       <span class="tl-icon" aria-hidden="true"></span>
                     </button>
                   </h3>
@@ -209,7 +216,7 @@ const LINKEDIN_ICON = 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21
                 {group.badges.map((badge) => (
                   <li class="badge">
                     <img src={`/assets/certs/${badge.img}`} width="94" height="106" loading="lazy" alt={badge.alt}>
-                    {badge.name}{badge.releases && <small>{badge.releases}</small>}
+                    {badge.name}{badge.releases && <>{' '}<small>{badge.releases}</small></>}
                   </li>
                 ))}
               </ul>
@@ -248,7 +255,7 @@ const LINKEDIN_ICON = 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21
             <ul class="levels">
               {t.languages.map((l) => (
                 <li class="level">
-                  <span>{l.term}</span><span class="lvl">{l.detail}</span>
+                  <span>{l.term}</span>{' '}<span class="lvl">{l.detail}</span>
                   <span class="meter" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((n) => <i class={n <= l.level ? 'f' : undefined}></i>)}</span>
                 </li>
               ))}
