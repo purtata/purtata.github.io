@@ -12,7 +12,7 @@ export const CERT_CHECKER_URL = 'https://education.guidewire.com/lmt/lmtlogin.pr
 export const OG_IMAGE = '/assets/og-image.png';
 
 /** Last content change. Goes into sitemap.xml as <lastmod>: bump it when the CV text changes. */
-export const LAST_UPDATED = '2026-11-25';
+export const LAST_UPDATED = '2026-11-28';
 
 /** Every language version of the page. The first one is the default (x-default in hreflang). */
 export const LANGUAGES: { lang: Lang; path: string; label: string; ogLocale: string }[] = [
@@ -31,54 +31,70 @@ export const absolute = (path: string) => SITE_URL + path;
 export interface Badge {
   img: string;
   alt: string;
-  /** Caption lines under the badge: the first is the product, the rest are release names. */
+  /** Caption under the badge: the product, then the release names in smaller text. */
   name: string;
-  releases?: string[];
+  releases?: string;
 }
 
 export interface CertGroup {
   title: string;
-  /** Lowest-value group, shown with a quieter heading. */
-  minor?: boolean;
   badges: Badge[];
 }
 
+// Order = the order of the cards: the two single badges share a row, then the two rows of three.
 export const CERT_GROUPS: CertGroup[] = [
   {
     title: 'Associate',
     badges: [
       { img: 'gw-associate-is-developer.png', alt: 'Guidewire Certified Associate: InsuranceSuite Developer badge',
-        name: 'InsuranceSuite Developer', releases: ['Qusar · Palisades', 'Olos · Niseko'] },
-    ],
-  },
-  {
-    title: 'Specialist · Configuration',
-    badges: [
-      { img: 'gw-specialist-pc-config.png', alt: 'Guidewire Certified Specialist: PolicyCenter Configuration badge',
-        name: 'PolicyCenter', releases: ['Olos · Niseko · Mammoth'] },
-      { img: 'gw-specialist-cc-config.png', alt: 'Guidewire Certified Specialist: ClaimCenter Configuration badge',
-        name: 'ClaimCenter', releases: ['Olos · Niseko · Mammoth'] },
-      { img: 'gw-specialist-bc-config.png', alt: 'Guidewire Certified Specialist: BillingCenter Configuration badge',
-        name: 'BillingCenter', releases: ['Olos · Niseko · Mammoth'] },
-    ],
-  },
-  {
-    title: 'Self-Managed Specialist · Configuration',
-    minor: true,
-    badges: [
-      { img: 'gw-self-managed-pc.png', alt: 'Guidewire Certified Self-Managed Specialist: PolicyCenter Configuration badge', name: 'PolicyCenter' },
-      { img: 'gw-self-managed-cc.png', alt: 'Guidewire Certified Self-Managed Specialist: ClaimCenter Configuration badge', name: 'ClaimCenter' },
-      { img: 'gw-self-managed-bc.png', alt: 'Guidewire Certified Self-Managed Specialist: BillingCenter Configuration badge', name: 'BillingCenter' },
+        name: 'InsuranceSuite Developer', releases: 'Qusar · Palisades · Olos · Niseko' },
     ],
   },
   {
     title: 'Specialist · Integration',
     badges: [
       { img: 'gw-specialist-is-integration.png', alt: 'Guidewire Certified Specialist: InsuranceSuite Integration badge',
-        name: 'InsuranceSuite', releases: ['Las Leñas'] },
+        name: 'InsuranceSuite', releases: 'Las Leñas' },
+    ],
+  },
+  {
+    title: 'Specialist · Configuration',
+    badges: [
+      { img: 'gw-specialist-pc-config.png', alt: 'Guidewire Certified Specialist: PolicyCenter Configuration badge',
+        name: 'PolicyCenter', releases: 'Olos · Niseko · Mammoth' },
+      { img: 'gw-specialist-cc-config.png', alt: 'Guidewire Certified Specialist: ClaimCenter Configuration badge',
+        name: 'ClaimCenter', releases: 'Olos · Niseko · Mammoth' },
+      { img: 'gw-specialist-bc-config.png', alt: 'Guidewire Certified Specialist: BillingCenter Configuration badge',
+        name: 'BillingCenter', releases: 'Olos · Niseko · Mammoth' },
+    ],
+  },
+  {
+    title: 'Self-Managed Specialist · Configuration',
+    badges: [
+      { img: 'gw-self-managed-pc.png', alt: 'Guidewire Certified Self-Managed Specialist: PolicyCenter Configuration badge', name: 'PolicyCenter' },
+      { img: 'gw-self-managed-cc.png', alt: 'Guidewire Certified Self-Managed Specialist: ClaimCenter Configuration badge', name: 'ClaimCenter' },
+      { img: 'gw-self-managed-bc.png', alt: 'Guidewire Certified Self-Managed Specialist: BillingCenter Configuration badge', name: 'BillingCenter' },
     ],
   },
 ];
+
+// ---------- Key facts (the numbers in the hero) ----------
+
+/** First Guidewire job (Capgemini, AXA Germany). */
+const GUIDEWIRE_SINCE = { year: 2017, month: 11 };
+
+/** Full years since a month, on the day the site is built (so the number grows with the next deploy). */
+function fullYearsSince({ year, month }: { year: number; month: number }, today = new Date()) {
+  const months = (today.getFullYear() - year) * 12 + (today.getMonth() + 1 - month);
+  return Math.floor(months / 12);
+}
+
+export const FACTS = {
+  guidewireYears: fullYearsSince(GUIDEWIRE_SINCE),
+  certifications: CERT_GROUPS.reduce((n, g) => n + g.badges.length, 0),
+  markets: 3,         // Germany, Switzerland, Poland
+  businessYears: 8,   // 2009 – 2017, own bank and insurance businesses
+};
 
 // ---------- Structured data (JSON-LD) ----------
 // Tells search engines "this page is about a person". Same facts in every language;

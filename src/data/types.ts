@@ -17,25 +17,41 @@ export interface DateLabel {
 }
 
 export interface Job {
-  title: string;
-  /** Start date. Leave out to print only `place` (for date ranges without <time>). */
-  from?: DateLabel;
+  role: string;
+  /** Employer, shown under the role. */
+  org: string;
+  from: DateLabel;
   /** End date, or a word like "present" for the current job. */
-  to?: DateLabel | string;
-  /** Everything after the dates: "Warsaw · Remote". */
-  place: string;
-  /** Promotion steps, e.g. "Junior 2017–2018 · Engineer 2019". */
-  steps?: string;
-  /** Client and product line. */
-  project?: string;
+  to: DateLabel | string;
+  /** Everything after the dates in the open job: "Warsaw · Remote". Leave out for no date line. */
+  place?: string;
+  /** One line under the title, visible while the job is folded. */
+  summary?: string;
+  tags?: string[];
+  /** Older roles: a slightly smaller title. */
+  earlier?: boolean;
   bullets: Bullet[];
 }
 
-/** A term and its description, for <dl> lists (skills, languages, education). */
+/** A term and its description, for <dl> lists (skills, education). */
 export interface Entry {
   term: string;
   detail: string;
 }
+
+/** A spoken language. `level` fills the meter: 6 of 6 = native. */
+export interface Language extends Entry {
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+/** One page section: the small numbered label, the heading, and the link text in the menu. */
+export interface Section {
+  label: string;
+  heading: string;
+  menu: string;
+}
+
+export type SectionId = 'profile' | 'experience' | 'certifications' | 'skills' | 'more';
 
 export interface Content {
   lang: Lang;
@@ -47,29 +63,42 @@ export interface Content {
     ogImageAlt: string;
   };
 
-  langNavLabel: string;
+  /** Small labels and names for screen readers. */
+  ui: {
+    langNav: string;
+    sectionsNav: string;
+    menu: string;
+    facts: string;
+    expandAll: string;
+    collapseAll: string;
+    /** End of the current job in the timeline column: "2025 – now". */
+    now: string;
+    print: string;
+  };
+
   portrait: { alt: string; caption: string; note: string };
   role: string;
   location: string;
   pitch: string;
-  printLabel: string;
 
-  headings: {
-    profile: string;
-    experience: string;
+  /** The labels under the numbers in the hero. The numbers come from site.ts. */
+  facts: {
+    guidewireYears: string;
     certifications: string;
-    skills: string;
-    languages: string;
-    education: string;
-    interests: string;
+    markets: string;
+    businessYears: string;
   };
+
+  sections: Record<SectionId, Section>;
+  /** Headings of the three columns in the last section. */
+  more: { languages: string; education: string; interests: string };
 
   profile: string[];
   jobs: Job[];
-  /** The text around the Certification Checker link. */
-  certNote: { before: string; link: string; after: string };
+  /** Under the badges: the note, the Certification Checker button and how to search there. */
+  certNote: { text: string; button: string; hint: string };
   skills: Entry[];
-  languages: Entry[];
+  languages: Language[];
   education: Entry[];
   interests: string;
   footer: { copyright: string; trademark: string };

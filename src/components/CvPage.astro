@@ -1,9 +1,9 @@
 ---
 // The CV page. One template for every language: the text comes from src/data/<lang>.ts.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import type { Content } from '../data/types';
+import type { Content, Job, SectionId } from '../data/types';
 import {
-  NAME, LINKEDIN_URL, LINKEDIN_PRINT, CERT_CHECKER_URL, OG_IMAGE, LANGUAGES, CERT_GROUPS, absolute, jsonLd,
+  NAME, LINKEDIN_URL, LINKEDIN_PRINT, CERT_CHECKER_URL, OG_IMAGE, LANGUAGES, CERT_GROUPS, FACTS, absolute, jsonLd,
 } from '../data/site';
 
 interface Props {
@@ -12,15 +12,59 @@ interface Props {
 const { content: t } = Astro.props;
 const here = LANGUAGES.find((l) => l.lang === t.lang)!;
 const others = LANGUAGES.filter((l) => l !== here);
+
+/** Section order: the menu, the "01 · …" labels and the page all follow it. */
+const SECTIONS: SectionId[] = ['profile', 'experience', 'certifications', 'skills', 'more'];
+const label = (id: SectionId) => `0${SECTIONS.indexOf(id) + 1} · ${t.sections[id].label}`;
+
+const facts = [
+  { n: FACTS.guidewireYears, text: t.facts.guidewireYears },
+  { n: FACTS.certifications, text: t.facts.certifications },
+  { n: FACTS.markets, text: t.facts.markets },
+  { n: FACTS.businessYears, text: t.facts.businessYears },
+];
+
+/** The timeline column: a big start year, then the end ("– now", "– 2023", or "Apr – Oct" within one year). */
+function when(job: Job) {
+  const year = job.from.date.slice(0, 4);
+  if (typeof job.to === 'string') return { year, rest: `– ${t.ui.now}` };
+  const toYear = job.to.date.slice(0, 4);
+  if (toYear !== year) return { year, rest: `– ${toYear}` };
+  if (job.from.date.length < 7 || job.to.date.length < 7) return { year, rest: '' };   // "2016" – "2016": no months to show
+  const month = (d: string) => new Date(`${d}-01T12:00:00Z`).toLocaleDateString(t.lang, { month: 'short', timeZone: 'UTC' });
+  return { year, rest: `${month(job.from.date)} – ${month(job.to.date)}` };
+}
+
+// Line icons for the six skills, in the order of t.skills. Decoration only (aria-hidden).
+// .ln = terracotta line, .dot = the sage dot that moves a little on hover.
+const SKILL_ICONS = [
+  '<circle class="dot" cx="66" cy="14" r="9"/><path class="ln" d="M14 30 42 18 70 30 42 42z"/><path class="ln" d="M14 42 42 54 70 42"/><path class="ln" d="M14 54 42 66 70 54"/>',
+  '<circle class="dot" cx="18" cy="56" r="9"/><circle class="ln" cx="20" cy="20" r="8"/><circle class="ln" cx="64" cy="20" r="8"/><circle class="ln" cx="42" cy="56" r="8"/><path class="ln" d="M28 20h28M25 27l12 22M59 27 47 49"/>',
+  '<circle class="dot" cx="64" cy="54" r="9"/><path class="ln" d="M36 8c2 14 6 18 20 20-14 2-18 6-20 20-2-14-6-18-20-20 14-2 18-6 20-20z"/><path class="ln" d="M64 10v12M58 16h12"/>',
+  '<circle class="dot" cx="42" cy="36" r="9"/><path class="ln" d="M24 10c-8 0-8 6-8 12s-2 14-8 14c6 0 8 8 8 14s0 12 8 12M60 10c8 0 8 6 8 12s2 14 8 14c-6 0-8 8-8 14s0 12-8 12"/>',
+  '<circle class="dot" cx="62" cy="20" r="9"/><circle class="ln" cx="24" cy="12" r="6"/><circle class="ln" cx="24" cy="60" r="6"/><circle class="ln" cx="58" cy="26" r="6"/><path class="ln" d="M24 18v36M58 32c0 14-34 8-34 22"/>',
+  '<circle class="dot" cx="22" cy="18" r="9"/><path class="ln" d="M14 30h40v24H32l-10 8v-8h-8z"/><path class="ln" d="M38 22V12h36v24h-8v8l-10-8"/>',
+];
+
+// Icons are matched to skills by position, so the counts must agree: fail the build rather than show a blank card.
+if (t.skills.length !== SKILL_ICONS.length) {
+  throw new Error(`${t.lang}.ts has ${t.skills.length} skills but CvPage.astro has ${SKILL_ICONS.length} skill icons`);
+}
+
+const LINKEDIN_ICON = 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06C21.1 9.04 22 11.5 22 14.7V21h-4v-5.6c0-1.34-.03-3.06-1.86-3.06-1.87 0-2.15 1.46-2.15 2.96V21h-4z';
 ---
 <BaseLayout lang={t.lang} title={t.meta.title}>
   <Fragment slot="head">
+    {/* Runs before the page is drawn: tells the CSS that JavaScript works, so it may fold jobs and
+        hide elements that fade in. Without JavaScript nothing is folded or hidden. */}
+    <script is:inline>document.documentElement.classList.add('js')</script>
+
     <meta name="description" content={t.meta.description}>
     <link rel="canonical" href={absolute(here.path)}>
     {LANGUAGES.map((l) => <link rel="alternate" hreflang={l.lang} href={absolute(l.path)}>)}
     <link rel="alternate" hreflang="x-default" href={absolute(LANGUAGES[0].path)}>
 
-    <!-- Link previews (LinkedIn, Slack, Teams, Facebook: Open Graph; X: Twitter card) -->
+    {/* Link previews (LinkedIn, Slack, Teams, Facebook: Open Graph; X: Twitter card) */}
     <meta property="og:type" content="profile">
     <meta property="og:url" content={absolute(here.path)}>
     <meta property="og:title" content={t.meta.title}>
@@ -35,111 +79,219 @@ const others = LANGUAGES.filter((l) => l !== here);
     <meta property="profile:last_name" content="Piotrowski">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Structured data: tells search engines "this page is about a person" -->
+    {/* Structured data: tells search engines "this page is about a person" */}
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd(t))} />
   </Fragment>
 
-  <header class="hero">
-    <nav class="lang" aria-label={t.langNavLabel}>
-      {LANGUAGES.map((l) => (
-        <a href={l.path} lang={l.lang} hreflang={l.lang} aria-current={l.lang === t.lang ? 'page' : undefined}>{l.label}</a>
-      ))}
-    </nav>
-    <figure class="portrait">
-      <img src="/assets/portrait-ai.jpg" width="112" height="112" alt={t.portrait.alt}>
-      <figcaption>{t.portrait.caption}<br><span>{t.portrait.note}</span></figcaption>
-    </figure>
-    <h1>{NAME}</h1>
-    <p class="role">{t.role}</p>
-    <p class="meta">{t.location}</p>
-    <p class="pitch">{t.pitch}</p>
-    <p class="actions">
-      <a class="btn primary" href={LINKEDIN_URL} rel="me" data-print={LINKEDIN_PRINT}>LinkedIn</a>
-      <button class="btn" type="button" id="print-btn" hidden>{t.printLabel}</button>
-    </p>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="bar">
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 44 36" aria-hidden="true">
+          <polyline points="13,5 3,17 13,29" /><polyline points="31,5 41,17 31,29" /><circle cx="22" cy="24" r="6" />
+        </svg>
+        {NAME}
+      </a>
+      <nav class="lang" aria-label={t.ui.langNav}>
+        {LANGUAGES.map((l, i) => (
+          <>{i > 0 && ' · '}<a href={l.path} lang={l.lang} hreflang={l.lang} aria-current={l.lang === t.lang ? 'page' : undefined}>{l.label}</a></>
+        ))}
+      </nav>
+      {/* hidden until the script runs: without JavaScript the button would do nothing */}
+      <button class="burger" type="button" aria-label={t.ui.menu} aria-expanded="false" aria-controls="menu" hidden>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </header>
 
-  <main>
+  <div class="menu" id="menu">
+    <div>
+      <nav aria-label={t.ui.sectionsNav}>
+        <ol>
+          {SECTIONS.map((id) => <li><a href={`#${id}`}>{t.sections[id].menu}</a></li>)}
+        </ol>
+        <div class="menu-actions">
+          <a class="btn" href={LINKEDIN_URL}>LinkedIn</a>
+          <button class="btn js-print" type="button" hidden>{t.ui.print}</button>
+        </div>
+      </nav>
+    </div>
+  </div>
 
-    <section id="profile" aria-labelledby="profile-title">
-      <h2 id="profile-title">{t.headings.profile}</h2>
-      {t.profile.map((p) => <p>{p}</p>)}
+  <main id="top">
+
+    <section class="hero">
+      <div class="wrap">
+        <div class="intro">
+          <div>
+            <h1 class="rv">{NAME}</h1>
+            <p class="role rv">{t.role}</p>
+            <p class="meta rv">{t.location}</p>
+            <p class="pitch rv">{t.pitch}</p>
+            <div class="btn-row rv">
+              <a class="btn" href={LINKEDIN_URL} rel="me" data-print={LINKEDIN_PRINT}>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={LINKEDIN_ICON} /></svg>
+                LinkedIn</a>
+              <button class="btn js-print" type="button" hidden>{t.ui.print}</button>
+            </div>
+          </div>
+          <figure class="portrait rv">
+            <img src="/assets/portrait-ai.jpg" width="224" height="224" alt={t.portrait.alt}>
+            <figcaption>{t.portrait.caption}<br><span>{t.portrait.note}</span></figcaption>
+          </figure>
+        </div>
+
+        <ul class="facts rv" aria-label={t.ui.facts}>
+          {/* The visible number counts up from 0, so screen readers get the real number from the hidden copy */}
+          {facts.map((f) => <li class="fact"><b data-count={f.n} aria-hidden="true">{f.n}</b><span class="sr">{f.n}</span>{' '}<span>{f.text}</span></li>)}
+        </ul>
+      </div>
     </section>
 
-    <section id="experience" aria-labelledby="experience-title">
-      <h2 id="experience-title">{t.headings.experience}</h2>
-      {t.jobs.map((job) => (
-        <article class="job">
-          <h3>{job.title}</h3>
-          <p class="where">
-            {job.from && <><time datetime={job.from.date}>{job.from.label}</time> – </>}
-            {job.to && (typeof job.to === 'string' ? job.to : <time datetime={job.to.date}>{job.to.label}</time>)}
-            {job.from && ' · '}{job.place}
-          </p>
-          {job.steps && <p class="steps">{job.steps}</p>}
-          {job.project && <p class="project">{job.project}</p>}
-          <ul>
-            {job.bullets.map((b) => <li>{b.lead && <strong>{b.lead}</strong>}{b.text}</li>)}
-          </ul>
-        </article>
-      ))}
+    <section id="profile" aria-labelledby="profile-title">
+      <div class="wrap narrow">
+        <p class="eyebrow">{label('profile')}</p>
+        <h2 id="profile-title" class="sr">{t.sections.profile.heading}</h2>
+        {t.profile.map((p, i) => <p class:list={['rv', { lead: i === 0 }]}>{p}</p>)}
+      </div>
+    </section>
+
+    <section id="experience" class="soft" aria-labelledby="experience-title">
+      <div class="wrap mid">
+        <p class="eyebrow">{label('experience')}</p>
+        <h2 id="experience-title">{t.sections.experience.heading}</h2>
+        <div class="tl-tools">
+          <button class="linkbtn" type="button" id="toggle-all" hidden
+                  data-expand={t.ui.expandAll} data-collapse={t.ui.collapseAll}>{t.ui.expandAll}</button>
+        </div>
+
+        <ol class="tl">
+          {t.jobs.map((job, i) => {
+            const id = `job-${i + 1}`;
+            const w = when(job);
+            return (
+              // The newest job (first in the list) starts open. Without JavaScript all of them are open,
+              // so every button says aria-expanded="true" until the script folds the others.
+              <li class:list={['tl-item', 'rv', { 'is-open': i === 0, earlier: job.earlier }]}>
+                <div class="tl-when"><b>{w.year}</b>{' '}{w.rest}</div>
+                <div class="tl-dot" aria-hidden="true"></div>
+                <div class="tl-card">
+                  <h3>
+                    <button class="tl-toggle" type="button" aria-expanded="true" aria-controls={id}>
+                      <span><span class="tl-role">{job.role}</span>{' '}<span class="tl-org">{job.org}</span></span>
+                      <span class="tl-icon" aria-hidden="true"></span>
+                    </button>
+                  </h3>
+                  {job.summary && <p class="tl-sum">{job.summary}</p>}
+                  {job.tags && <ul class="chips">{job.tags.map((tag) => <li>{tag}</li>)}</ul>}
+                  <div class="tl-panel" id={id}><div>
+                    {job.place && (
+                      <p class="where">
+                        <time datetime={job.from.date}>{job.from.label}</time> – {typeof job.to === 'string'
+                          ? job.to : <time datetime={job.to.date}>{job.to.label}</time>} · {job.place}
+                      </p>
+                    )}
+                    <ul>
+                      {job.bullets.map((b) => <li>{b.lead && <strong>{b.lead}</strong>}{b.text}</li>)}
+                    </ul>
+                  </div></div>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </section>
 
     <section id="certifications" aria-labelledby="certifications-title">
-      <h2 id="certifications-title">{t.headings.certifications}</h2>
-      {CERT_GROUPS.map((group) => (
-        <div class:list={['cert-group', { minor: group.minor }]}>
-          <h3>{group.title}</h3>
-          <ul class="badges">
-            {group.badges.map((badge) => (
-              <li class="badge">
-                <img src={`/assets/certs/${badge.img}`} width="94" height="106" loading="lazy" alt={badge.alt}>
-                <p>{badge.name}{badge.releases && (
-                  <><br><span class="releases">{badge.releases.map((line, i) => <>{i > 0 && <br>}{line}</>)}</span></>
-                )}</p>
-              </li>
-            ))}
-          </ul>
+      <div class="wrap mid">
+        <p class="eyebrow">{label('certifications')}</p>
+        <h2 id="certifications-title">{t.sections.certifications.heading}</h2>
+        <div class="certs">
+          {CERT_GROUPS.map((group) => (
+            <div class:list={['cert-card', 'rv', { wide: group.badges.length > 1 }]}>
+              <h3>{group.title}</h3>
+              <ul class="badges">
+                {group.badges.map((badge) => (
+                  <li class="badge">
+                    <img src={`/assets/certs/${badge.img}`} width="94" height="106" loading="lazy" alt={badge.alt}>
+                    {badge.name}{badge.releases && <>{' '}<small>{badge.releases}</small></>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      ))}
-      {/* {' '} is an explicit space: the HTML minifier drops a bare line break between text and a tag. */}
-      <p class="note">{t.certNote.before}{' '}<a href={CERT_CHECKER_URL}>{t.certNote.link}</a>{t.certNote.after}</p>
+        <p class="cert-note narrow rv">{t.certNote.text}</p>
+        <p class="center rv"><a class="btn" href={CERT_CHECKER_URL}>{t.certNote.button}</a></p>
+        <p class="center check-hint rv">{t.certNote.hint}</p>
+      </div>
     </section>
 
-    <section id="skills" aria-labelledby="skills-title">
-      <h2 id="skills-title">{t.headings.skills}</h2>
-      <dl class="skills">
-        {t.skills.map((s) => <><dt>{s.term}</dt><dd>{s.detail}</dd></>)}
-      </dl>
+    <section id="skills" class="soft" aria-labelledby="skills-title">
+      <div class="wrap">
+        <p class="eyebrow">{label('skills')}</p>
+        <h2 id="skills-title">{t.sections.skills.heading}</h2>
+        <div class="skills">
+          {t.skills.map((skill, i) => (
+            <div class="skill rv">
+              <svg viewBox="0 0 84 72" aria-hidden="true" set:html={SKILL_ICONS[i]} />
+              <h3>{skill.term}</h3>
+              <p>{skill.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
 
-    <div class="cols">
-      <section id="languages" aria-labelledby="languages-title">
-        <h2 id="languages-title">{t.headings.languages}</h2>
-        <dl>
-          {t.languages.map((s) => <><dt>{s.term}</dt><dd>{s.detail}</dd></>)}
-        </dl>
-      </section>
-
-      <section id="education" aria-labelledby="education-title">
-        <h2 id="education-title">{t.headings.education}</h2>
-        <dl>
-          {t.education.map((s) => <><dt>{s.term}</dt><dd>{s.detail}</dd></>)}
-        </dl>
-      </section>
-    </div>
-
-    <section id="interests" aria-labelledby="interests-title">
-      <h2 id="interests-title">{t.headings.interests}</h2>
-      <p>{t.interests}</p>
+    <section id="more" aria-labelledby="more-title">
+      <div class="wrap">
+        <p class="eyebrow">{label('more')}</p>
+        <h2 id="more-title">{t.sections.more.heading}</h2>
+        <div class="trio">
+          <div class="rv">
+            <h3>{t.more.languages}</h3>
+            <ul class="levels">
+              {t.languages.map((l) => (
+                <li class="level">
+                  <span>{l.term}</span>{' '}<span class="lvl">{l.detail}</span>
+                  <span class="meter" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((n) => <i class={n <= l.level ? 'f' : undefined}></i>)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="rv">
+            <h3>{t.more.education}</h3>
+            <dl class="edu">
+              {t.education.map((e) => <><dt>{e.term}</dt><dd>{e.detail}</dd></>)}
+            </dl>
+          </div>
+          <div class="rv">
+            <h3>{t.more.interests}</h3>
+            <div class="lego">
+              <svg viewBox="0 0 64 48" aria-hidden="true">
+                <rect x="4" y="16" width="56" height="28" /><rect x="12" y="8" width="14" height="8" />
+                <rect x="38" y="8" width="14" height="8" /><circle cx="46" cy="34" r="5" />
+              </svg>
+              <p>{t.interests}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>
 
   <footer>
+    <div class="icons">
+      <a href={LINKEDIN_URL} aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d={LINKEDIN_ICON} /></svg>
+      </a>
+    </div>
     <p>{t.footer.copyright}</p>
     <p>{t.footer.trademark}</p>
   </footer>
 
-  <script src="../scripts/print.js"></script>
+  <script src="../scripts/main.js"></script>
 </BaseLayout>

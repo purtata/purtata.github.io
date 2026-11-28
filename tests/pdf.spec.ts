@@ -14,8 +14,9 @@ const A4 = { width: 595.28, height: 841.89 }; // in PDF points (1/72 inch)
 /** Collapse every kind of whitespace into one space. */
 const norm = (s: string) => s.replace(/\s+/g, ' ').trim();
 /** Remove all whitespace: a line can wrap after a hyphen ("post-|transaction"), and the
- *  extracted text then has a space there. Comparing without spaces ignores where lines break. */
-const squash = (s: string) => s.replace(/\s+/g, '');
+ *  extracted text then has a space there. Comparing without spaces ignores where lines break.
+ *  Lower case too: CSS text-transform prints some labels in capitals ("RAWICZ, POLAND · REMOTE"). */
+const squash = (s: string) => s.replace(/\s+/g, '').toLowerCase();
 
 async function makePdf(page: Page, path: string) {
   await page.goto(path);
@@ -50,17 +51,19 @@ for (const content of [en, de] as Content[]) {
       }
 
       // Every piece of CV text from the data file must be in the PDF.
-      // (In v2 the jobs fold away on screen: this proves they are all open on paper.)
+      // (On screen the jobs fold away: this proves they are all open on paper.)
+      // Left out on purpose: screen-only extras (key facts, tags, menu, section numbers).
       const expected = [
         content.role, content.location, content.pitch,
-        ...Object.values(content.headings),
+        ...Object.values(content.sections).map((s) => s.heading),
+        ...Object.values(content.more),
         ...content.profile,
         ...content.jobs.flatMap((j) => [
-          j.title, j.from?.label, typeof j.to === 'string' ? j.to : j.to?.label, j.place, j.steps, j.project,
+          j.role, j.org, j.summary, j.place && j.from.label, j.place && (typeof j.to === 'string' ? j.to : j.to.label), j.place,
           ...j.bullets.map((b) => (b.lead ?? '') + b.text),
         ]),
-        ...CERT_GROUPS.flatMap((g) => [g.title, ...g.badges.flatMap((b) => [b.name, ...(b.releases ?? [])])]),
-        content.certNote.before, content.certNote.link + content.certNote.after,
+        ...CERT_GROUPS.flatMap((g) => [g.title, ...g.badges.flatMap((b) => [b.name, b.releases])]),
+        content.certNote.text, content.certNote.button, content.certNote.hint,
         ...content.skills.flatMap((e) => [e.term, e.detail]),
         ...content.languages.flatMap((e) => [e.term, e.detail]),
         ...content.education.flatMap((e) => [e.term, e.detail]),
@@ -76,8 +79,10 @@ for (const content of [en, de] as Content[]) {
       const pdf = await readPdf(await makePdf(page, path));
 
       // Compared without spaces too: pdf.js may glue words of one line together ("Save asPDF").
-      expect(pdf.squashed, 'print button').not.toContain(squash(content.printLabel));
+      expect(pdf.squashed, 'print button').not.toContain(squash(content.ui.print));
       expect(pdf.squashed, 'portrait caption (photo is hidden on paper)').not.toContain(squash(content.portrait.caption));
+      expect(pdf.squashed, '"Expand all" button').not.toContain(squash(content.ui.expandAll));
+      expect(pdf.squashed, 'key facts').not.toContain(squash(content.facts.guidewireYears));
       expect(pdf.squashed, 'e-mail address').not.toMatch(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
       expect(pdf.text, 'phone number').not.toMatch(/\+?\d[\d ()/-]{7,}\d/);
     });
@@ -89,7 +94,8 @@ for (const content of [en, de] as Content[]) {
         window.print = () => { (window as unknown as { printed: number }).printed++; };
       });
       await page.goto(path);
-      await page.getByRole('button', { name: content.printLabel }).first().click();
+      // The one in the hero (the menu has one too, but the menu is closed)
+      await page.locator('main').getByRole('button', { name: content.ui.print }).click();
       expect(await page.evaluate(() => (window as unknown as { printed: number }).printed)).toBe(1);
     });
   });
